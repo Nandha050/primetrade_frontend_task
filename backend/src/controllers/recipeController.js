@@ -32,7 +32,7 @@ const createRecipe = async (req, res) => {
 const getRecipes = async (req, res) => {
   try {
     const { search, category, difficulty, cuisineType, sortBy } = req.query;
-    const filter = { user: req.user.id };
+    const filter = {};
 
     if (search) {
       filter.$or = [

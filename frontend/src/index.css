@@ -5,26 +5,65 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #FF5A5F;
-  --secondary-color: #FF8A80;
+  /* Primary Brand Colors */
+  --primary-color: #FF6B6B;
+  /* Soft Red/Coral */
+  --primary-hover: #EE5253;
+
+  /* Secondary/Accent Colors */
+  --secondary-color: #4ECDC4;
+  /* Teal/Mint */
+  --accent-yellow: #FFE66D;
+  --accent-dark: #292F36;
+
+  /* Backgrounds */
+  --bg-color: #F7FFF7;
+  /* Very light mint/off-white */
+  --card-bg: #FFFFFF;
 }
 
 body {
   font-family: 'Inter', sans-serif;
   color: #2D3748;
-  background-color: #FFF5F5; /* Light pink background like the design */
+  background-color: var(--bg-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Playfair Display', serif;
+}
+
+/* Custom Utilities */
+.text-primary {
+  color: var(--primary-color);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.hover\:text-primary:hover {
+  color: var(--primary-color);
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -33,7 +72,7 @@ h1, h2, h3, h4, h5, h6 {
 
 ::-webkit-scrollbar-thumb {
   background: #CBD5E0;
-  border-radius: 3px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -47,4 +86,21 @@ h1, h2, h3, h4, h5, h6 {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
 }

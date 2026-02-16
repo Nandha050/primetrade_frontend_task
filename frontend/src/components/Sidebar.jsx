@@ -66,30 +66,10 @@ export default function Sidebar() {
                     </div>
                 </div>
 
-                {/* Navigation */}
-                <nav className="flex-1 w-full px-4">
-                    <ul className="space-y-2">
-                        {menuItems.map((item) => (
-                            <li key={item.label}>
-                                <NavLink
-                                    to={item.path}
-                                    className={({ isActive }) =>
-                                        `flex items-center gap-4 px-6 py-3 rounded-xl transition-all duration-200 group ${isActive
-                                            ? 'text-red-500 font-bold bg-red-50'
-                                            : 'text-gray-400 hover:text-red-400 hover:bg-gray-50 font-medium'
-                                        }`
-                                    }
-                                >
-                                    <item.icon size={20} className="transition-transform group-hover:scale-110" />
-                                    <span>{item.label}</span>
-                                </NavLink>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
+
 
                 {/* Bottom Actions */}
-                <div className="w-full px-6 pb-4 border-t border-gray-100 pt-6">
+                <div className="w-full px-6 pb-4 border-t border-gray-100 pt-6 ">
                     <button
                         onClick={handleLogout}
                         className="flex items-center gap-3 text-gray-400 hover:text-red-500 transition-colors w-full px-4 py-2 rounded-lg hover:bg-red-50 font-medium"

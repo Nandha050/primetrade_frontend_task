@@ -6,7 +6,7 @@ export default function RecipeDetailsModal({ recipe, onClose }) {
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] backdrop-blur-sm p-4 overflow-y-auto">
-            <div className="bg-white rounded-3xl w-full max-w-4xl mx-auto overflow-hidden shadow-2xl animate-fade-in-up max-h-[90vh] flex flex-col md:flex-row relative">
+            <div className="bg-white rounded-3xl w-full max-w-6xl mx-auto overflow-hidden shadow-2xl animate-fade-in-up max-h-[90vh] flex flex-col md:flex-row relative">
 
                 {/* Close Button Mobile */}
                 <button
