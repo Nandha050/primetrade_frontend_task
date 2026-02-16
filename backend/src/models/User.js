@@ -25,6 +25,15 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
       select: false
     },
+    profilePicture: {
+      type: String,
+      default: ''
+    },
+    bio: {
+      type: String,
+      default: '',
+      maxlength: [200, 'Bio cannot be more than 200 characters']
+    },
     createdAt: {
       type: Date,
       default: Date.now

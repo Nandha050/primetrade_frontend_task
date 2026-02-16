@@ -2,16 +2,19 @@ import React, { useState, useContext, useEffect } from 'react';
 import { recipeAPI } from '../services/api';
 import { AuthContext } from '../context/AuthContext';
 import toast from 'react-hot-toast';
-import { Trash2, Edit2, Plus, Search, Filter, X, Clock, Flame, Users } from 'lucide-react';
+import { Plus, Search, Filter, X } from 'lucide-react';
 import RecipeModal from '../components/RecipeModal';
+import RecipeDetailsModal from '../components/RecipeDetailsModal';
+import RecipeCard from '../components/RecipeCard';
 
 export default function Dashboard() {
   const { user } = useContext(AuthContext);
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [viewingRecipe, setViewingRecipe] = useState(null);
   const [editingRecipe, setEditingRecipe] = useState(null);
-  
+
   // Filter and search states
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
@@ -82,303 +85,175 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header Section */}
-        <div className="mb-12">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-            <div>
-              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-2">
-                Only the best recipes!
-              </h1>
-              <p className="text-lg text-gray-600">Welcome, {user?.name}! Discover and manage your culinary creations</p>
-            </div>
-            <button
-              onClick={handleAddRecipe}
-              className="mt-4 md:mt-0 flex items-center gap-2 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl transition transform hover:scale-105"
+    <div>
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+        <div>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2 font-serif">
+            Only the best recipes!
+          </h1>
+          <p className="text-gray-500 font-medium">Today's new recipes for you</p>
+        </div>
+        <div className="flex gap-8 text-center mt-4 md:mt-0">
+          <div>
+            <span className="block text-3xl font-bold text-gray-900">{recipes.length}</span>
+            <span className="text-sm text-gray-400 font-medium">Recipes</span>
+          </div>
+          <div>
+            <span className="block text-3xl font-bold text-gray-900">12</span>
+            <span className="text-sm text-gray-400 font-medium">Tutorials</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Search Bar - styled like the design (top left usually, but we have it here for now) */}
+      <div className="relative mb-8 max-w-xl">
+        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+        <input
+          type="text"
+          className="w-full bg-white pl-12 pr-4 py-4 rounded-full shadow-sm border-none outline-none focus:ring-2 focus:ring-primary-color/20 text-gray-600 placeholder-gray-400"
+          placeholder="Enter your search request..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <button
+          onClick={() => setShowFilters(!showFilters)}
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition text-gray-600"
+        >
+          <Filter size={18} />
+        </button>
+      </div>
+
+      {/* Advanced Filters */}
+      {showFilters && (
+        <div className="bg-white p-6 rounded-2xl shadow-sm mb-8 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wide">Category</label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-50 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-color"
             >
-              <Plus size={22} />
-              Create Recipe
+              <option value="">All Categories</option>
+              <option value="Appetizer">Appetizer</option>
+              <option value="Main Course">Main Course</option>
+              <option value="Dessert">Dessert</option>
+              <option value="Beverage">Beverage</option>
+              <option value="Snack">Snack</option>
+              <option value="Salad">Salad</option>
+              <option value="Soup">Soup</option>
+              <option value="Bread">Bread</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wide">Difficulty</label>
+            <select
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-50 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-color"
+            >
+              <option value="">All Levels</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-gray-500 mb-1 uppercase tracking-wide">Cuisine</label>
+            <select
+              value={cuisineType}
+              onChange={(e) => setCuisineType(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-50 rounded-lg text-sm outline-none focus:ring-2 focus:ring-primary-color"
+            >
+              <option value="">All Cuisines</option>
+              <option value="Italian">Italian</option>
+              <option value="Chinese">Chinese</option>
+              <option value="Indian">Indian</option>
+              <option value="Mexican">Mexican</option>
+              <option value="American">American</option>
+              <option value="Mediterranean">Mediterranean</option>
+              <option value="Asian">Asian</option>
+            </select>
+          </div>
+
+          <div className="flex items-end">
+            <button
+              onClick={clearFilters}
+              className="w-full py-2 text-red-500 font-bold text-sm bg-red-50 rounded-lg hover:bg-red-100 transition"
+            >
+              Clear All
             </button>
           </div>
         </div>
+      )}
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition">
-            <div className="text-4xl font-bold text-red-500 mb-2">{recipes.length}</div>
-            <div className="text-gray-600">Total Recipes</div>
-          </div>
-          <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition">
-            <div className="text-4xl font-bold text-orange-500 mb-2">
-              {recipes.reduce((sum, r) => sum + r.rating, 0) / (recipes.length || 1)}
-            </div>
-            <div className="text-gray-600">Average Rating</div>
-          </div>
-          <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition">
-            <div className="text-4xl font-bold text-amber-500 mb-2">
-              {recipes.reduce((sum, r) => sum + r.prepTime + r.cookTime, 0)}
-            </div>
-            <div className="text-gray-600">Total Cook Time (mins)</div>
-          </div>
-        </div>
+      {/* Floating Action Button for Create Recipe (if we want to stick to a button on screen always) or Keep existing button? Design has "Start cooking" on cards. Let's keep a prominent Create button somewhere. The header is clean. Maybe a FAB or a card in the grid? Let's use a nice button in the layout or header. I'll add a card that acts as "Create New" or just a button.
+      The previous dashboard had a Create button. I'll put it next to search or as a special card.
+      Let's use a special "Action Card" that encourages users to create, similar to the "Mentorship program" card in the design.
+       */}
 
-        {/* Search and Filters */}
-        <div className="bg-white rounded-2xl shadow-md p-6 mb-8">
-          <div className="flex flex-col md:flex-row gap-4 items-end mb-4">
-            <div className="flex-1">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Search Recipes
-              </label>
-              <div className="relative">
-                <Search size={20} className="absolute left-4 top-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search recipes, ingredients..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-red-500 outline-none transition"
-                />
-              </div>
+      {/* Recipes Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {/* Create New Card (mimicking the "Mentorship program" card style but for creating) */}
+        <div
+          onClick={handleAddRecipe}
+          className="bg-[#4ADE80] rounded-3xl p-8 flex flex-col justify-between text-white cursor-pointer hover:shadow-xl transition-shadow group relative overflow-hidden h-[420px]"
+        >
+          <div className="relative z-10">
+            <div className="bg-white/20 w-fit px-3 py-1 rounded-full text-xs font-bold mb-4 uppercase tracking-wide">
+              New Recipe
             </div>
-
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl transition font-semibold"
-            >
-              <Filter size={18} />
-              Advanced Filters
+            <h3 className="text-3xl font-serif font-bold mb-2">Share your <br />creation</h3>
+            <p className="opacity-90 leading-relaxed text-sm">
+              Got a new culinary masterpiece? Add it to your collection and share it with the world.
+            </p>
+          </div>
+          <div className="relative z-10 mt-auto">
+            <button className="bg-white text-green-600 px-6 py-3 rounded-xl font-bold shadow-sm group-hover:scale-105 transition-transform">
+              Create Now
             </button>
           </div>
 
-          {/* Advanced Filters */}
-          {showFilters && (
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-6 border-t-2 border-gray-200">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Category</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-red-500 outline-none transition"
-                >
-                  <option value="">All Categories</option>
-                  <option value="Appetizer">Appetizer</option>
-                  <option value="Main Course">Main Course</option>
-                  <option value="Dessert">Dessert</option>
-                  <option value="Beverage">Beverage</option>
-                  <option value="Snack">Snack</option>
-                  <option value="Salad">Salad</option>
-                  <option value="Soup">Soup</option>
-                  <option value="Bread">Bread</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Difficulty</label>
-                <select
-                  value={difficulty}
-                  onChange={(e) => setDifficulty(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-red-500 outline-none transition"
-                >
-                  <option value="">All Levels</option>
-                  <option value="Beginner">Beginner</option>
-                  <option value="Intermediate">Intermediate</option>
-                  <option value="Advanced">Advanced</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Cuisine</label>
-                <select
-                  value={cuisineType}
-                  onChange={(e) => setCuisineType(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-red-500 outline-none transition"
-                >
-                  <option value="">All Cuisines</option>
-                  <option value="Italian">Italian</option>
-                  <option value="Chinese">Chinese</option>
-                  <option value="Indian">Indian</option>
-                  <option value="Mexican">Mexican</option>
-                  <option value="American">American</option>
-                  <option value="Mediterranean">Mediterranean</option>
-                  <option value="Asian">Asian</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Sort By</label>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-red-500 outline-none transition"
-                >
-                  <option value="createdAt">Newest</option>
-                  <option value="title">Title A-Z</option>
-                  <option value="prepTime">Prep Time</option>
-                  <option value="rating">Rating</option>
-                </select>
-              </div>
-
-              <button
-                onClick={clearFilters}
-                className="flex items-center justify-center gap-2 bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg transition font-semibold md:col-span-4"
-              >
-                <X size={18} />
-                Clear Filters
-              </button>
-            </div>
-          )}
+          {/* Decorative Chef Illustration Placeholder */}
+          <div className="absolute -bottom-4 -right-4 opacity-50 transform rotate-12 scale-150">
+            <svg width="200" height="200" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="white" fillOpacity="0.2" />
+            </svg>
+          </div>
         </div>
 
-        {/* Recipes Grid */}
         {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-red-200 border-t-red-500"></div>
-              <p className="mt-4 text-gray-600 font-semibold">Loading delicious recipes...</p>
-            </div>
-          </div>
-        ) : recipes.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-md p-16 text-center">
-            <div className="text-7xl mb-4">🍽️</div>
-            <h3 className="text-3xl font-bold text-gray-800 mb-2">No recipes yet</h3>
-            <p className="text-gray-600 mb-6 text-lg">Start creating your first delicious recipe today!</p>
-            <button
-              onClick={handleAddRecipe}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-red-500 to-orange-500 text-white px-8 py-4 rounded-full hover:from-red-600 hover:to-orange-600 transition font-bold shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              <Plus size={20} />
-              Create First Recipe
-            </button>
-          </div>
+          [...Array(3)].map((_, i) => (
+            <div key={i} className="bg-white rounded-3xl h-[420px] animate-pulse"></div>
+          ))
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {recipes.map((recipe) => (
-              <RecipeCard
-                key={recipe._id}
-                recipe={recipe}
-                onEdit={handleEditRecipe}
-                onDelete={handleDeleteRecipe}
-              />
-            ))}
-          </div>
+          recipes.map((recipe) => (
+            <RecipeCard
+              key={recipe._id}
+              recipe={recipe}
+              onClick={() => setViewingRecipe(recipe)}
+              onEdit={handleEditRecipe}
+              onDelete={handleDeleteRecipe}
+            />
+          ))
         )}
       </div>
 
-      {/* Recipe Modal */}
       {isModalOpen && (
         <RecipeModal
           recipe={editingRecipe}
           onClose={handleModalClose}
         />
       )}
-    </div>
-  );
-}
 
-function RecipeCard({ recipe, onEdit, onDelete }) {
-  const getTotalTime = () => recipe.prepTime + recipe.cookTime;
-
-  const difficultyColors = {
-    'Beginner': 'bg-green-100 text-green-700 border-green-300',
-    'Intermediate': 'bg-yellow-100 text-yellow-700 border-yellow-300',
-    'Advanced': 'bg-red-100 text-red-700 border-red-300'
-  };
-
-  const renderStars = (rating) => {
-    return '★'.repeat(Math.floor(rating)) + '☆'.repeat(5 - Math.floor(rating));
-  };
-
-  return (
-    <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-      {/* Image Container */}
-      <div className="relative h-56 bg-gray-200 overflow-hidden">
-        <img
-          src={recipe.imageUrl}
-          alt={recipe.title}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+      {viewingRecipe && (
+        <RecipeDetailsModal
+          recipe={viewingRecipe}
+          onClose={() => setViewingRecipe(null)}
         />
-        
-        {/* Rating Badge - Top Right */}
-        <div className="absolute top-4 right-4 bg-white rounded-full px-3 py-2 font-bold shadow-lg flex items-center gap-1">
-          <span className="text-2xl text-yellow-400">{renderStars(recipe.rating)}</span>
-        </div>
-
-        {/* Difficulty Badge - Top Left */}
-        <div className={`absolute top-4 left-4 px-3 py-1 rounded-full font-bold border-2 ${difficultyColors[recipe.difficulty] || 'bg-gray-100 text-gray-700'}`}>
-          {recipe.difficulty}
-        </div>
-      </div>
-
-      {/* Content Container */}
-      <div className="p-6">
-        <h3 className="text-2xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-red-600 transition">
-          {recipe.title}
-        </h3>
-        
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-          {recipe.description || 'A delicious recipe'}
-        </p>
-
-        {/* Category & Cuisine Tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          <span className="inline-block bg-orange-100 text-orange-700 text-xs font-bold px-3 py-1 rounded-full border border-orange-300">
-            {recipe.category}
-          </span>
-          <span className="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full border border-blue-300">
-            {recipe.cuisineType}
-          </span>
-        </div>
-
-        {/* Stats Grid */}
-        <div className="grid grid-cols-4 gap-3 mb-6 bg-gray-50 rounded-lg p-3">
-          <div className="text-center">
-            <div className="flex items-center justify-center gap-1 mb-1">
-              <Clock size={16} className="text-red-500" />
-            </div>
-            <div className="text-sm font-bold text-gray-900">{recipe.prepTime}</div>
-            <div className="text-xs text-gray-600">Prep</div>
-          </div>
-          <div className="text-center border-l border-gray-300">
-            <div className="flex items-center justify-center gap-1 mb-1">
-              <Flame size={16} className="text-orange-500" />
-            </div>
-            <div className="text-sm font-bold text-gray-900">{recipe.cookTime}</div>
-            <div className="text-xs text-gray-600">Cook</div>
-          </div>
-          <div className="text-center border-l border-gray-300">
-            <div className="font-bold text-sm text-gray-900">
-              {getTotalTime()}
-            </div>
-            <div className="text-xs text-gray-600">Total</div>
-          </div>
-          <div className="text-center border-l border-gray-300">
-            <div className="flex items-center justify-center gap-1 mb-1">
-              <Users size={16} className="text-green-500" />
-            </div>
-            <div className="text-sm font-bold text-gray-900">{recipe.servings}</div>
-            <div className="text-xs text-gray-600">Serves</div>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex gap-3">
-          <button
-            onClick={() => onEdit(recipe)}
-            className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 rounded-lg transition transform hover:scale-105 flex items-center justify-center gap-2 shadow-md"
-          >
-            <Edit2 size={18} />
-            <span className="hidden sm:inline">Edit</span>
-          </button>
-          <button
-            onClick={() => onDelete(recipe._id)}
-            className="flex-1 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-3 rounded-lg transition transform hover:scale-105 flex items-center justify-center gap-2 shadow-md"
-          >
-            <Trash2 size={18} />
-            <span className="hidden sm:inline">Delete</span>
-          </button>
-        </div>
-      </div>
+      )}
     </div>
   );
 }

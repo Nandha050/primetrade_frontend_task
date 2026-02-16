@@ -52,8 +52,14 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   }, []);
 
+  const updateProfile = useCallback(async (data) => {
+    const response = await authAPI.updateProfile(data);
+    setUser(response.data.user);
+    return response.data;
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, register, login, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, register, login, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

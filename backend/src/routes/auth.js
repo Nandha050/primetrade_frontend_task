@@ -39,5 +39,6 @@ router.post(
 );
 
 router.get('/profile', auth, getProfile);
+router.put('/profile', auth, require('../controllers/authController').updateProfile);
 
 module.exports = router;
