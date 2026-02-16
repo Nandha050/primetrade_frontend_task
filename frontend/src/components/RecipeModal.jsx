@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { recipeAPI } from '../services/api';
 import toast from 'react-hot-toast';
-import { X, Plus, Trash2 } from 'lucide-react';
+import { X, Plus, Trash2, Info, Clock, Users, Flame } from 'lucide-react';
 
 export default function RecipeModal({ recipe, onClose }) {
   const [formData, setFormData] = useState({
@@ -102,28 +102,38 @@ export default function RecipeModal({ recipe, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl my-8">
-        {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b">
-          <h2 className="text-2xl font-bold text-gray-800">
-            {recipe ? 'Edit Recipe' : 'Add New Recipe'}
-          </h2>
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl my-8 overflow-hidden">
+        {/* Header with Gradient */}
+        <div className="bg-gradient-to-r from-red-500 to-orange-500 px-8 py-6 flex justify-between items-center">
+          <div>
+            <h2 className="text-3xl font-bold text-white">
+              {recipe ? '✏️ Edit Recipe' : '➕ Add New Recipe'}
+            </h2>
+            <p className="text-orange-100 text-sm mt-1">
+              {recipe ? 'Update your recipe details' : 'Create a delicious new recipe'}
+            </p>
+          </div>
           <button
             onClick={() => onClose(false)}
-            className="text-gray-500 hover:text-gray-700"
+            className="text-white hover:bg-red-600 p-2 rounded-full transition"
           >
-            <X size={24} />
+            <X size={28} />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-200px)]">
+        <form onSubmit={handleSubmit} className="p-8 space-y-8 overflow-y-auto max-h-[calc(100vh-200px)]">
           {/* Basic Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-800">Basic Information</h3>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white p-2 rounded-lg">
+                <Info size={20} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Basic Information</h3>
+            </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="bg-orange-50 rounded-xl border border-orange-100 p-4">
+              <label className="block text-sm font-bold text-gray-800 mb-2">
                 Recipe Title *
               </label>
               <input
@@ -131,36 +141,36 @@ export default function RecipeModal({ recipe, onClose }) {
                 name="title"
                 value={formData.title}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                className="w-full px-4 py-2 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none text-gray-900 font-semibold"
                 placeholder="e.g., Chocolate Chip Cookies"
                 required
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="bg-blue-50 rounded-xl border border-blue-100 p-4">
+              <label className="block text-sm font-bold text-gray-800 mb-2">
                 Description
               </label>
               <textarea
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                placeholder="Describe your recipe..."
+                className="w-full px-4 py-2 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-gray-900"
+                placeholder="Describe your delicious recipe..."
                 rows="3"
               />
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+              <div className="bg-purple-50 rounded-xl border border-purple-100 p-4">
+                <label className="block text-sm font-bold text-gray-800 mb-2">
                   Category
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                  className="w-full px-3 py-2 border-2 border-purple-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-gray-900 font-medium"
                 >
                   <option>Appetizer</option>
                   <option>Main Course</option>
@@ -173,15 +183,15 @@ export default function RecipeModal({ recipe, onClose }) {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+              <div className="bg-green-50 rounded-xl border border-green-100 p-4">
+                <label className="block text-sm font-bold text-gray-800 mb-2">
                   Difficulty
                 </label>
                 <select
                   name="difficulty"
                   value={formData.difficulty}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                  className="w-full px-3 py-2 border-2 border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-gray-900 font-medium"
                 >
                   <option>Beginner</option>
                   <option>Intermediate</option>
@@ -189,15 +199,15 @@ export default function RecipeModal({ recipe, onClose }) {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+              <div className="bg-yellow-50 rounded-xl border border-yellow-100 p-4">
+                <label className="block text-sm font-bold text-gray-800 mb-2">
                   Cuisine Type
                 </label>
                 <select
                   name="cuisineType"
                   value={formData.cuisineType}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                  className="w-full px-3 py-2 border-2 border-yellow-200 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none text-gray-900 font-medium"
                 >
                   <option>Italian</option>
                   <option>Chinese</option>
@@ -210,15 +220,15 @@ export default function RecipeModal({ recipe, onClose }) {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+              <div className="bg-pink-50 rounded-xl border border-pink-100 p-4">
+                <label className="block text-sm font-bold text-gray-800 mb-2">
                   Rating
                 </label>
                 <select
                   name="rating"
                   value={formData.rating}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                  className="w-full px-3 py-2 border-2 border-pink-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent outline-none text-gray-900 font-medium"
                 >
                   <option value="1">1 ⭐</option>
                   <option value="2">2 ⭐</option>
@@ -232,79 +242,93 @@ export default function RecipeModal({ recipe, onClose }) {
 
           {/* Timing & Servings */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-800">Timing & Servings</h3>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white p-2 rounded-lg">
+                <Clock size={20} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900">Timing & Servings</h3>
+            </div>
 
             <div className="grid grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Prep Time (min) *
+              <div className="bg-blue-50 rounded-xl border border-blue-100 p-4">
+                <label className="block text-sm font-bold text-gray-800 mb-2">
+                  ⏱️ Prep Time *
                 </label>
-                <input
-                  type="number"
-                  name="prepTime"
-                  value={formData.prepTime}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                  min="1"
-                  required
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    name="prepTime"
+                    value={formData.prepTime}
+                    onChange={handleInputChange}
+                    className="flex-1 px-3 py-2 border-2 border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none text-gray-900 font-semibold"
+                    min="1"
+                    required
+                  />
+                  <span className="text-gray-600 font-bold">min</span>
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Cook Time (min) *
+              <div className="bg-orange-50 rounded-xl border border-orange-100 p-4">
+                <label className="block text-sm font-bold text-gray-800 mb-2">
+                  🔥 Cook Time *
                 </label>
-                <input
-                  type="number"
-                  name="cookTime"
-                  value={formData.cookTime}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                  min="1"
-                  required
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    name="cookTime"
+                    value={formData.cookTime}
+                    onChange={handleInputChange}
+                    className="flex-1 px-3 py-2 border-2 border-orange-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none text-gray-900 font-semibold"
+                    min="1"
+                    required
+                  />
+                  <span className="text-gray-600 font-bold">min</span>
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Servings
+              <div className="bg-green-50 rounded-xl border border-green-100 p-4">
+                <label className="block text-sm font-bold text-gray-800 mb-2">
+                  👥 Servings
                 </label>
-                <input
-                  type="number"
-                  name="servings"
-                  value={formData.servings}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                  min="1"
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    name="servings"
+                    value={formData.servings}
+                    onChange={handleInputChange}
+                    className="flex-1 px-3 py-2 border-2 border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-gray-900 font-semibold"
+                    min="1"
+                  />
+                  <span className="text-gray-600 font-bold">servings</span>
+                </div>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Calories
+              <div className="bg-yellow-50 rounded-xl border border-yellow-100 p-4">
+                <label className="block text-sm font-bold text-gray-800 mb-2">
+                  🔥 Calories
                 </label>
                 <input
                   type="number"
                   name="calories"
                   value={formData.calories}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                  className="w-full px-3 py-2 border-2 border-yellow-200 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent outline-none text-gray-900 font-semibold"
                   min="0"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Image URL
+              <div className="bg-indigo-50 rounded-xl border border-indigo-100 p-4">
+                <label className="block text-sm font-bold text-gray-800 mb-2">
+                  🖼️ Image URL
                 </label>
                 <input
                   type="text"
                   name="imageUrl"
                   value={formData.imageUrl}
                   onChange={handleInputChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+                  className="w-full px-3 py-2 border-2 border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none text-gray-900 text-xs"
                   placeholder="https://example.com/image.jpg"
                 />
               </div>
@@ -313,110 +337,136 @@ export default function RecipeModal({ recipe, onClose }) {
 
           {/* Ingredients */}
           <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold text-gray-800">Ingredients</h3>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-2 rounded-lg">
+                  <Flame size={20} />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">Ingredients</h3>
+              </div>
               <button
                 type="button"
                 onClick={addIngredient}
-                className="flex items-center gap-1 text-primary hover:text-opacity-80 transition"
+                className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 rounded-full hover:from-green-600 hover:to-emerald-600 transition font-semibold"
               >
                 <Plus size={18} /> Add Ingredient
               </button>
             </div>
 
-            {formData.ingredients.map((ingredient, index) => (
-              <div key={index} className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Item name"
-                  value={ingredient.item}
-                  onChange={(e) => handleIngredientChange(index, 'item', e.target.value)}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
-                />
-                <input
-                  type="text"
-                  placeholder="Qty"
-                  value={ingredient.quantity}
-                  onChange={(e) => handleIngredientChange(index, 'quantity', e.target.value)}
-                  className="w-20 px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
-                />
-                <select
-                  value={ingredient.unit}
-                  onChange={(e) => handleIngredientChange(index, 'unit', e.target.value)}
-                  className="w-24 px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="">Unit</option>
-                  <option value="cup">Cup</option>
-                  <option value="tbsp">Tbsp</option>
-                  <option value="tsp">Tsp</option>
-                  <option value="g">g</option>
-                  <option value="kg">kg</option>
-                  <option value="ml">ml</option>
-                  <option value="l">l</option>
-                  <option value="pcs">Pcs</option>
-                </select>
-                <button
-                  type="button"
-                  onClick={() => removeIngredient(index)}
-                  className="text-red-600 hover:text-red-700"
-                >
-                  <Trash2 size={18} />
-                </button>
-              </div>
-            ))}
+            <div className="space-y-3">
+              {formData.ingredients.map((ingredient, index) => (
+                <div key={index} className="bg-green-50 rounded-xl border border-green-100 p-4 flex gap-2 items-end group hover:border-green-300 transition">
+                  <div className="flex-1">
+                    <label className="text-xs font-bold text-gray-600 mb-1 block">Item</label>
+                    <input
+                      type="text"
+                      placeholder="e.g., Flour"
+                      value={ingredient.item}
+                      onChange={(e) => handleIngredientChange(index, 'item', e.target.value)}
+                      className="w-full px-3 py-2 border border-green-200 rounded-lg outline-none focus:ring-2 focus:ring-green-500 text-gray-900 font-semibold"
+                    />
+                  </div>
+                  <div className="w-20">
+                    <label className="text-xs font-bold text-gray-600 mb-1 block">Quantity</label>
+                    <input
+                      type="text"
+                      placeholder="2"
+                      value={ingredient.quantity}
+                      onChange={(e) => handleIngredientChange(index, 'quantity', e.target.value)}
+                      className="w-full px-3 py-2 border border-green-200 rounded-lg outline-none focus:ring-2 focus:ring-green-500 text-gray-900 font-semibold"
+                    />
+                  </div>
+                  <div className="w-24">
+                    <label className="text-xs font-bold text-gray-600 mb-1 block">Unit</label>
+                    <select
+                      value={ingredient.unit}
+                      onChange={(e) => handleIngredientChange(index, 'unit', e.target.value)}
+                      className="w-full px-3 py-2 border border-green-200 rounded-lg outline-none focus:ring-2 focus:ring-green-500 text-gray-900 font-semibold"
+                    >
+                      <option value="">Select</option>
+                      <option value="cup">Cup</option>
+                      <option value="tbsp">Tbsp</option>
+                      <option value="tsp">Tsp</option>
+                      <option value="g">g</option>
+                      <option value="kg">kg</option>
+                      <option value="ml">ml</option>
+                      <option value="l">l</option>
+                      <option value="pcs">Pcs</option>
+                    </select>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeIngredient(index)}
+                    className="text-red-500 hover:text-red-700 hover:bg-red-100 p-2 rounded-lg transition"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Instructions */}
           <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-semibold text-gray-800">Instructions</h3>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-2 rounded-lg">
+                  <Info size={20} />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">Instructions</h3>
+              </div>
               <button
                 type="button"
                 onClick={addInstruction}
-                className="flex items-center gap-1 text-primary hover:text-opacity-80 transition"
+                className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full hover:from-purple-600 hover:to-pink-600 transition font-semibold"
               >
                 <Plus size={18} /> Add Step
               </button>
             </div>
 
-            {formData.instructions.map((instruction, index) => (
-              <div key={index} className="flex gap-2">
-                <div className="w-12 bg-primary text-white rounded-lg flex items-center justify-center font-bold flex-shrink-0">
-                  {index + 1}
+            <div className="space-y-3">
+              {formData.instructions.map((instruction, index) => (
+                <div key={index} className="bg-purple-50 rounded-xl border border-purple-100 p-4 flex gap-3 items-start group hover:border-purple-300 transition">
+                  <div className="bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-lg flex items-center justify-center font-bold flex-shrink-0 w-12 h-12 text-lg">
+                    {index + 1}
+                  </div>
+                  <div className="flex-1">
+                    <label className="text-xs font-bold text-gray-600 mb-1 block">Step {index + 1} Instructions</label>
+                    <textarea
+                      placeholder="Describe this step in detail..."
+                      value={instruction.description}
+                      onChange={(e) => handleInstructionChange(index, 'description', e.target.value)}
+                      className="w-full px-3 py-2 border border-purple-200 rounded-lg outline-none focus:ring-2 focus:ring-purple-500 text-gray-900"
+                      rows="2"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeInstruction(index)}
+                    className="text-red-500 hover:text-red-700 hover:bg-red-100 p-2 rounded-lg transition flex-shrink-0"
+                  >
+                    <Trash2 size={18} />
+                  </button>
                 </div>
-                <textarea
-                  placeholder="Describe this step..."
-                  value={instruction.description}
-                  onChange={(e) => handleInstructionChange(index, 'description', e.target.value)}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
-                  rows="2"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeInstruction(index)}
-                  className="text-red-600 hover:text-red-700"
-                >
-                  <Trash2 size={18} />
-                </button>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-3 pt-4 border-t">
+          <div className="flex gap-3 pt-6 border-t-2 border-gray-200">
             <button
               type="button"
               onClick={() => onClose(false)}
-              className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-semibold"
+              className="flex-1 px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-100 hover:border-gray-400 transition font-bold text-lg"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90 transition font-semibold disabled:opacity-50"
+              className="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-xl hover:from-red-600 hover:to-orange-600 transition font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
             >
-              {loading ? 'Saving...' : recipe ? 'Update Recipe' : 'Create Recipe'}
+              {loading ? '⏳ Saving...' : recipe ? '✏️ Update Recipe' : '➕ Create Recipe'}
             </button>
           </div>
         </form>
