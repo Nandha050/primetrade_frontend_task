@@ -1,0 +1,221 @@
+{
+  "info": {
+    "name": "Chef - Recipe Book API",
+    "description": "API collection for Chef - A Recipe Book Application",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"confirmPassword\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_JWT_TOKEN"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/auth/profile",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "auth", "profile"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Recipes",
+      "item": [
+        {
+          "name": "Create Recipe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_JWT_TOKEN"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Spaghetti Carbonara\",\n  \"description\": \"Classic Italian pasta dish with creamy sauce\",\n  \"category\": \"Main Course\",\n  \"difficulty\": \"Intermediate\",\n  \"cuisineType\": \"Italian\",\n  \"prepTime\": 10,\n  \"cookTime\": 20,\n  \"servings\": 4,\n  \"calories\": 450,\n  \"rating\": 5,\n  \"imageUrl\": \"https://via.placeholder.com/400x300?text=Carbonara\",\n  \"ingredients\": [\n    {\n      \"item\": \"Spaghetti\",\n      \"quantity\": \"400\",\n      \"unit\": \"g\"\n    },\n    {\n      \"item\": \"Eggs\",\n      \"quantity\": \"3\",\n      \"unit\": \"pcs\"\n    },\n    {\n      \"item\": \"Bacon\",\n      \"quantity\": \"200\",\n      \"unit\": \"g\"\n    }\n  ],\n  \"instructions\": [\n    {\n      \"stepNumber\": 1,\n      \"description\": \"Cook spaghetti in salted boiling water\"\n    },\n    {\n      \"stepNumber\": 2,\n      \"description\": \"Fry bacon until crispy\"\n    },\n    {\n      \"stepNumber\": 3,\n      \"description\": \"Mix eggs with cheese\"\n    },\n    {\n      \"stepNumber\": 4,\n      \"description\": \"Combine all ingredients\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/recipes",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "recipes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Recipes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_JWT_TOKEN"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/recipes?search=pasta&category=Main Course&difficulty=Intermediate&sortBy=rating",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "recipes"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "pasta"
+                },
+                {
+                  "key": "category",
+                  "value": "Main Course"
+                },
+                {
+                  "key": "difficulty",
+                  "value": "Intermediate"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "rating"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recipe by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_JWT_TOKEN"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/recipes/RECIPE_ID",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "recipes", "RECIPE_ID"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Recipe",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_JWT_TOKEN"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Spaghetti Carbonara\",\n  \"description\": \"Classic Italian pasta dish with creamy sauce - Updated\",\n  \"rating\": 5,\n  \"difficulty\": \"Intermediate\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/recipes/RECIPE_ID",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "recipes", "RECIPE_ID"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Recipe",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer YOUR_JWT_TOKEN"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/recipes/RECIPE_ID",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "recipes", "RECIPE_ID"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
