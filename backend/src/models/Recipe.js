@@ -29,6 +29,11 @@ const recipeSchema = new mongoose.Schema(
       enum: ['Italian', 'Chinese', 'Indian', 'Mexican', 'American', 'Mediterranean', 'Asian', 'Other'],
       default: 'Other'
     },
+    dietary: {
+      type: String,
+      enum: ['Veg', 'Non-Veg'],
+      default: 'Veg'
+    },
     prepTime: {
       type: Number, // in minutes
       required: true,

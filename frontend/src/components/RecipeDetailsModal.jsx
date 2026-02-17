@@ -90,7 +90,7 @@ export default function RecipeDetailsModal({ recipe, onClose }) {
                                 <h3 className="text-xl font-bold text-gray-800">Ingredients</h3>
                             </div>
                             <ul className="space-y-3">
-                                {recipe.ingredients.map((ing, idx) => (
+                                {(recipe.ingredients || []).map((ing, idx) => (
                                     <li key={idx} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition">
                                         <span className="w-2 h-2 mt-2 rounded-full bg-primary-color flex-shrink-0"></span>
                                         <span className="flex-1 text-gray-700 font-medium">{ing.item}</span>
@@ -111,7 +111,7 @@ export default function RecipeDetailsModal({ recipe, onClose }) {
                                 <h3 className="text-xl font-bold text-gray-800">Instructions</h3>
                             </div>
                             <div className="space-y-6 relative border-l-2 border-dashed border-gray-200 ml-3 md:ml-4 pl-8 md:pl-10 py-2">
-                                {recipe.instructions.map((step, idx) => (
+                                {(recipe.instructions || []).map((step, idx) => (
                                     <div key={idx} className="relative group">
                                         <span className="absolute -left-[45px] top-0 w-8 h-8 rounded-full bg-white border-2 border-primary-color text-primary-color flex items-center justify-center font-bold text-sm z-10 group-hover:bg-primary-color group-hover:text-white transition-colors">
                                             {idx + 1}

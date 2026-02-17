@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { recipeAPI } from '../services/api';
 import toast from 'react-hot-toast';
 import { X, Plus, Trash2, Info, Clock, Users, Flame } from 'lucide-react';
+import { sanitizeInput } from '../utils/helpers';
 
 export default function RecipeModal({ recipe, onClose }) {
   const [formData, setFormData] = useState({
@@ -15,9 +16,10 @@ export default function RecipeModal({ recipe, onClose }) {
     servings: 4,
     ingredients: [{ item: '', quantity: '', unit: '' }],
     instructions: [{ stepNumber: 1, description: '' }],
-    calories: 0,
+    calories: '',
     rating: 4,
-    imageUrl: 'https://via.placeholder.com/400x300?text=Recipe'
+    imageUrl: 'https://via.placeholder.com/400x300?text=Recipe',
+    dietary: 'Veg'
   });
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +33,9 @@ export default function RecipeModal({ recipe, onClose }) {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: isNaN(value) ? value : Number(value)
+      // If value is empty string, keep it as empty string. 
+      // Otherwise, check if it's a number (and not whitespace strings that cast to 0)
+      [name]: value === '' ? '' : (isNaN(Number(value)) ? value : Number(value))
     }));
   };
 
@@ -84,12 +88,31 @@ export default function RecipeModal({ recipe, onClose }) {
     }
 
     setLoading(true);
+
+    // Sanitize Data
+    const sanitizedData = {
+      ...formData,
+      title: sanitizeInput(formData.title),
+      description: sanitizeInput(formData.description),
+      dietary: formData.dietary || 'Veg', // Ensure dietary is included!
+      ingredients: formData.ingredients.map(ing => ({
+        ...ing,
+        item: sanitizeInput(ing.item),
+        quantity: sanitizeInput(ing.quantity),
+        unit: sanitizeInput(ing.unit)
+      })),
+      instructions: formData.instructions.map(ins => ({
+        ...ins,
+        description: sanitizeInput(ins.description)
+      }))
+    };
+
     try {
       if (recipe) {
-        await recipeAPI.updateRecipe(recipe._id, formData);
+        await recipeAPI.updateRecipe(recipe._id, sanitizedData);
         toast.success('Recipe updated successfully!');
       } else {
-        await recipeAPI.createRecipe(formData);
+        await recipeAPI.createRecipe(sanitizedData);
         toast.success('Recipe created successfully!');
       }
       onClose(true);
@@ -235,6 +258,21 @@ export default function RecipeModal({ recipe, onClose }) {
                   <option value="3">3 ⭐</option>
                   <option value="4">4 ⭐</option>
                   <option value="5">5 ⭐</option>
+                </select>
+              </div>
+
+              <div className="bg-green-50 rounded-xl border border-green-100 p-4">
+                <label className="block text-sm font-bold text-gray-800 mb-2">
+                  Dietary Preference
+                </label>
+                <select
+                  name="dietary"
+                  value={formData.dietary || 'Veg'}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border-2 border-green-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-gray-900 font-medium"
+                >
+                  <option value="Veg">Vegetarian 🥬</option>
+                  <option value="Non-Veg">Non-Vegetarian 🍗</option>
                 </select>
               </div>
             </div>

@@ -1,89 +1,127 @@
-import React, { useContext, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { LogOut, Edit2, ChefHat, User, Plus, BookOpen, X, LayoutDashboard } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
-import { BookOpen, User, Users, Globe, LogOut, PlusCircle, Edit2 } from 'lucide-react';
-import UserProfileModal from './UserProfileModal';
 
-export default function Sidebar() {
+export default function Sidebar({ recipeCount, onCreateRecipe, onClose }) {
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
-    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+    const location = useLocation();
 
     const handleLogout = () => {
         logout();
         navigate('/login');
     };
 
-    const menuItems = [
-        { icon: BookOpen, label: 'Recipes', path: '/dashboard' },
-        { icon: User, label: 'Favorites', path: '/favorites' }, // Placeholder path
-        { icon: Users, label: 'Community', path: '/community' }, // Placeholder path
-    ];
+    const handleProfileClick = () => {
+        navigate('/profile');
+        if (onClose) onClose();
+    };
+
+    const handleDashboardClick = () => {
+        navigate('/dashboard');
+        if (onClose) onClose();
+    };
 
     return (
-        <>
-            <div className="bg-white h-screen w-64 fixed left-0 top-0 border-r border-gray-100 flex flex-col items-center py-8 z-50">
-                {/* Brand */}
-                <div className="mb-12">
-                    <h1 className="text-3xl font-bold text-gray-800 tracking-tight cursor-pointer" onClick={() => navigate('/')}>
-                        Foodoo
+        <div className="bg-gradient-to-b from-white to-gray-50 h-full w-64 border-r border-gray-200/80 flex flex-col items-center py-8 shadow-2xl lg:shadow-none overflow-y-auto relative">
+
+            {/* Close Button for Mobile */}
+            <button
+                onClick={onClose}
+                className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 lg:hidden text-gray-500"
+            >
+                <X size={20} />
+            </button>
+
+            {/* Logo Section */}
+            <div className="mb-8 px-6 w-full cursor-pointer group" onClick={handleDashboardClick}>
+                <div className="flex items-center gap-3 justify-center">
+                    <div className="p-2 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-hover)] rounded-xl shadow-md group-hover:scale-110 transition-transform">
+                        <ChefHat size={24} className="text-white" />
+                    </div>
+                    <h1 className="text-2xl font-bold bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] bg-clip-text text-transparent">
+                        chef
                     </h1>
-                </div>
-
-                {/* User Profile Summary */}
-                <div className="flex flex-col items-center mb-12 w-full px-6 group relative">
-                    <div className="relative mb-4 cursor-pointer" onClick={() => setIsProfileModalOpen(true)}>
-                        <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg relative z-10 transition-transform group-hover:scale-105">
-                            <img
-                                src={user?.profilePicture || `https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=random`}
-                                alt="Profile"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                        {/* Decorative Ring */}
-                        <div className="absolute top-0 right-0 w-24 h-24 rounded-full border-t-4 border-r-4 border-primary-500 rotate-45 transform scale-110 opacity-50 group-hover:rotate-90 transition-transform duration-500"></div>
-
-                        <div className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow-md text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Edit2 size={14} />
-                        </div>
-                    </div>
-
-                    <h3 className="text-xl font-bold text-gray-900 mb-1 font-serif text-center break-words w-full">
-                        {user?.name || 'Guest Chef'}
-                    </h3>
-                    <p className="text-gray-500 text-sm font-medium">{user?.bio ? user.bio.substring(0, 20) + (user.bio.length > 20 ? '...' : '') : 'Chef de Partie'}</p>
-
-                    {/* Helper/Stats (Example) */}
-                    <div className="flex gap-4 mt-6 w-full justify-center">
-                        <div className="text-center">
-                            <span className="block text-lg font-bold text-gray-800">12</span>
-                            <span className="text-xs text-gray-400 uppercase tracking-wide">Recipes</span>
-                        </div>
-                        <div className="text-center">
-                            <span className="block text-lg font-bold text-gray-800">48</span>
-                            <span className="text-xs text-gray-400 uppercase tracking-wide">Followers</span>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                {/* Bottom Actions */}
-                <div className="w-full px-6 pb-4 border-t border-gray-100 pt-6 ">
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-3 text-gray-400 hover:text-red-500 transition-colors w-full px-4 py-2 rounded-lg hover:bg-red-50 font-medium"
-                    >
-                        <LogOut size={20} />
-                        <span>Log Out</span>
-                    </button>
                 </div>
             </div>
 
-            <UserProfileModal
-                isOpen={isProfileModalOpen}
-                onClose={() => setIsProfileModalOpen(false)}
-            />
-        </>
+            {/* Navigation Section */}
+            <div className="w-full px-4 mb-6">
+                <button
+                    onClick={handleDashboardClick}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${location.pathname === '/dashboard'
+                        ? 'bg-orange-50 text-[var(--color-primary)] shadow-sm border border-orange-100'
+                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                        }`}
+                >
+                    <LayoutDashboard size={20} />
+                    <span>Dashboard</span>
+                </button>
+            </div>
+
+            {/* Profile Section */}
+            <div className="flex flex-col items-center mb-8 w-full px-6">
+                <div className="relative group mb-4">
+                    <div
+                        className="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-lg cursor-pointer transition-transform hover:scale-105"
+                        onClick={handleProfileClick}
+                    >
+                        {user?.profilePicture ? (
+                            <img
+                                src={user.profilePicture}
+                                alt={user.name}
+                                className="w-full h-full object-cover"
+                            />
+                        ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-secondary)] flex items-center justify-center">
+                                <User size={32} className="text-white" />
+                            </div>
+                        )}
+                    </div>
+                    <button
+                        onClick={handleProfileClick}
+                        className="absolute bottom-0 right-0 p-1.5 bg-white rounded-full shadow-md border border-gray-200 hover:bg-[var(--color-primary-light)] hover:border-[var(--color-primary)] transition-all opacity-0 group-hover:opacity-100"
+                        title="Edit Profile"
+                    >
+                        <Edit2 size={12} className="text-[var(--color-primary)]" />
+                    </button>
+                </div>
+
+                <h3
+                    className={`text-lg font-bold mb-1 text-center break-words w-full cursor-pointer transition-colors ${location.pathname === '/profile' ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-primary)] hover:text-[var(--color-primary)]'}`}
+                    onClick={handleProfileClick}
+                >
+                    {user?.name || 'Guest Chef'}
+                </h3>
+
+                {user?.bio && (
+                    <p className="text-xs text-[var(--color-text-secondary)] text-center line-clamp-2 px-2">
+                        {user.bio}
+                    </p>
+                )}
+            </div>
+
+
+
+            {/* Spacer to push logout to bottom */}
+            <div className="flex-1"></div>
+
+            {/* Logout Button - At Bottom */}
+            <div className="w-full px-6 pb-4 border-t border-gray-200/80 pt-6">
+                <button
+                    onClick={handleLogout}
+                    className="flex items-center justify-center gap-3 text-[var(--color-text-primary)] hover:text-white bg-white hover:bg-[var(--color-danger)] transition-all duration-200 w-full px-4 py-3 rounded-xl border-2 border-gray-200 hover:border-[var(--color-danger)] font-semibold shadow-sm hover:shadow-md active:scale-95 group"
+                >
+                    <LogOut size={20} className="transition-transform group-hover:translate-x-1" />
+                    <span>Logout</span>
+                </button>
+
+                {/* App Version */}
+                <p className="text-xs text-[var(--color-text-tertiary)] text-center mt-4">
+                    v1.0.0 • Production
+                </p>
+            </div>
+        </div>
     );
 }

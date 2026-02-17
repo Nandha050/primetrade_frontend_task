@@ -5,7 +5,7 @@ const createRecipe = async (req, res) => {
     const {
       title, description, category, difficulty, cuisineType,
       prepTime, cookTime, servings, ingredients, instructions,
-      calories, rating, imageUrl
+      calories, rating, imageUrl, dietary
     } = req.body;
 
     if (!title || !prepTime || !cookTime || !servings) {
@@ -17,7 +17,7 @@ const createRecipe = async (req, res) => {
       prepTime, cookTime, servings,
       ingredients: ingredients || [],
       instructions: instructions || [],
-      calories, rating, imageUrl,
+      calories, rating, imageUrl, dietary,
       user: req.user.id
     });
 
@@ -91,7 +91,7 @@ const updateRecipe = async (req, res) => {
     const {
       title, description, category, difficulty, cuisineType,
       prepTime, cookTime, servings, ingredients, instructions,
-      calories, rating, imageUrl
+      calories, rating, imageUrl, dietary
     } = req.body;
 
     if (title) recipe.title = title;
@@ -107,6 +107,7 @@ const updateRecipe = async (req, res) => {
     if (calories) recipe.calories = calories;
     if (rating) recipe.rating = rating;
     if (imageUrl) recipe.imageUrl = imageUrl;
+    if (dietary) recipe.dietary = dietary;
     recipe.updatedAt = Date.now();
 
     await recipe.save();

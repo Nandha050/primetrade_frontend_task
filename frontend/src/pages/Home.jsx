@@ -1,140 +1,121 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ChefHat, Search, Heart, Star, UserPlus, ArrowRight } from 'lucide-react';
+import { ChefHat, Search, ArrowRight, Star, Globe, TrendingUp } from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[var(--bg-color)]">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-orange-600 selection:text-white overflow-x-hidden">
+
       {/* Hero Section */}
-      <section className="relative pt-20 pb-32 overflow-hidden">
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-[var(--primary-color)] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute top-0 left-0 -ml-20 -mt-20 w-96 h-96 bg-[var(--secondary-color)] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+      <div className="relative h-screen flex items-center justify-center overflow-hidden">
+        {/* Background - Cinematic Effect */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop"
+            alt="Culinary Masterpiece"
+            className="w-full h-full object-cover opacity-60 scale-105 animate-slow-pan" // "animate-slow-pan" custom class or just slow zoom
+            style={{ animation: 'zoomIn 20s infinite alternate linear' }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black z-10" />
+        </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Text Content */}
-          <div className="space-y-8 z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-gray-100">
-              <span className="text-[var(--primary-color)] font-bold text-sm tracking-wide uppercase">#1 Recipe App</span>
-              <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-              <span className="text-gray-500 text-sm">Join 10,000+ Chefs</span>
-            </div>
-
-            <h1 className="text-6xl md:text-7xl font-bold leading-tight text-gray-900">
-              Cook Like a <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary-color)] to-orange-500">Master Chef</span>
-            </h1>
-
-            <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
-              Discover thousands of recipes, create your own culinary masterpieces, and share your passion with a global community of food lovers.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/register" className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-[var(--primary-color)] text-white rounded-full font-bold text-lg hover:bg-[var(--primary-hover)] transition shadow-lg hover:shadow-xl hover:-translate-y-1">
-                Start Cooking Free <ArrowRight size={20} />
-              </Link>
-              <Link to="/login" className="inline-flex justify-center items-center gap-2 px-8 py-4 bg-white text-gray-700 border-2 border-gray-100 rounded-full font-bold text-lg hover:border-gray-300 transition hover:-translate-y-1">
-                Login
-              </Link>
-            </div>
-
-            <div className="flex items-center gap-4 pt-4">
-              <div className="flex -space-x-4">
-                {[1, 2, 3, 4].map(i => (
-                  <img key={i} className="w-10 h-10 rounded-full border-2 border-white" src={`https://i.pravatar.cc/100?img=${i + 10}`} alt="User" />
-                ))}
-              </div>
-              <div className="text-sm font-semibold text-gray-600">
-                <div className="flex text-yellow-500">
-                  {[1, 2, 3, 4, 5].map(i => <Star key={i} size={14} fill="currentColor" />)}
-                </div>
-                10k+ Happy Cooks
-              </div>
-            </div>
+        {/* Content */}
+        <div className="relative z-20 text-center px-4 max-w-5xl mx-auto space-y-6 md:space-y-8 animate-fade-in-up">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/10 mb-2 md:mb-4 animate-fade-in">
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span className="text-gray-200 text-[10px] md:text-xs font-bold uppercase tracking-widest">Join 10k+ Chefs</span>
           </div>
 
-          {/* Visuals */}
-          <div className="relative z-10 hidden lg:block">
-            <div className="relative">
-              <img
-                src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Delicious Bowl"
-                className="rounded-[3rem] shadow-2xl transform -rotate-6 hover:rotate-0 transition duration-500 w-full object-cover h-[600px]"
-              />
+          <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-serif font-bold tracking-tight leading-tight md:leading-none text-white drop-shadow-2xl">
+            Taste the <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 animate-gradient-x">
+              Extraordinary
+            </span>
+          </h1>
 
-              {/* Floating Cards */}
-              <div className="absolute -left-12 top-20 bg-white p-4 rounded-2xl shadow-xl animate-bounce-slow">
-                <div className="flex items-center gap-3">
-                  <div className="bg-green-100 p-2 rounded-full text-green-600">
-                    <ChefHat size={24} />
-                  </div>
-                  <div>
-                    <p className="font-bold text-gray-900">Pro Chefs</p>
-                    <p className="text-xs text-gray-500">Learn from best</p>
-                  </div>
-                </div>
-              </div>
+          <div className="flex flex-col items-center gap-6">
+            <p className="text-lg md:text-2xl text-gray-300 max-w-2xl font-light leading-relaxed px-4">
+              Unlock a world of culinary possibilities. Share recipes, discover flavors, and connect with a global community.
+            </p>
 
-              <div className="absolute -right-8 bottom-40 bg-white p-4 rounded-2xl shadow-xl animate-bounce-slow animation-delay-1000">
-                <div className="flex items-center gap-3">
-                  <div className="bg-red-100 p-2 rounded-full text-red-600">
-                    <Heart size={24} fill="currentColor" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-gray-900">Healthy</p>
-                    <p className="text-xs text-gray-500">Nutritious meals</p>
-                  </div>
-                </div>
-              </div>
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4 w-full sm:w-auto px-6 sm:px-0">
+              <Link
+                to="/register"
+                className="group relative px-8 py-4 bg-orange-600 rounded-full font-bold text-lg overflow-hidden transition-transform hover:scale-105 shadow-xl hover:shadow-orange-600/30 w-full sm:w-auto flex justify-center"
+              >
+                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                <span className="relative flex items-center gap-2">
+                  Start Cooking Free <ArrowRight size={20} />
+                </span>
+              </Link>
+
+              <Link
+                to="/login"
+                className="px-8 py-4 rounded-full font-bold text-lg border border-white/20 hover:bg-white/10 transition-colors backdrop-blur-sm w-full sm:w-auto flex justify-center"
+              >
+                Sign In
+              </Link>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Features Grid */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Everything you need to master the kitchen</h2>
-            <p className="text-xl text-gray-500">Designed for both home cooks and professional chefs.</p>
+      {/* Features / Value Prop Grid */}
+      <section className="py-32 bg-black relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-24">
+            <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">Elevate Your Kitchen</h2>
+            <p className="text-gray-400 text-xl max-w-2xl mx-auto">Everything you need to master your culinary journey.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <FeatureCard
-              icon={<Search size={32} />}
-              title="Smart Search"
-              desc="Find recipes by ingredients you already have in your fridge."
-              color="bg-blue-50 text-blue-600"
+            <FeatureTile
+              icon={<Search className="w-8 h-8 text-orange-400" />}
+              title="Smart Discovery"
+              desc="Find recipes based on ingredients you have. Zero waste, maximum flavor."
             />
-            <FeatureCard
-              icon={<UserPlus size={32} />}
-              title="Community"
-              desc="Share your recipes and get feedback from food lovers worldwide."
-              color="bg-purple-50 text-purple-600"
+            <FeatureTile
+              icon={<Globe className="w-8 h-8 text-blue-400" />}
+              title="Global Flavors"
+              desc="Explore authentic dishes from cultures around the world."
             />
-            <FeatureCard
-              icon={<Star size={32} />}
-              title="Save Favorites"
-              desc="Create your personal cookbook by saving your favorite recipes."
-              color="bg-orange-50 text-orange-600"
+            <FeatureTile
+              icon={<TrendingUp className="w-8 h-8 text-green-400" />}
+              title="Community Trends"
+              desc="See what's cooking. Follow top chefs and trending recipes."
             />
           </div>
         </div>
       </section>
+
+      {/* Footer / CTA Simple */}
+      <div className="py-24 border-t border-white/10 text-center">
+        <h2 className="text-3xl font-serif font-bold mb-8">Ready to get started?</h2>
+        <Link
+          to="/register"
+          className="inline-flex items-center gap-2 text-orange-500 font-bold hover:text-orange-400 text-xl transition-colors"
+        >
+          Create your free account <ArrowRight size={20} />
+        </Link>
+      </div>
 
     </div>
   );
 }
 
-function FeatureCard({ icon, title, desc, color }) {
+function FeatureTile({ icon, title, desc }) {
   return (
-    <div className="p-8 rounded-3xl bg-gray-50 hover:bg-white border border-transparent hover:border-gray-100 hover:shadow-xl transition-all duration-300 group">
-      <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 ${color}`}>
+    <div className="p-8 rounded-3xl bg-white/5 border border-white/10 hover:border-white/20 transition-all hover:-translate-y-2 duration-300 group">
+      <div className="mb-6 p-4 bg-white/5 rounded-2xl w-fit group-hover:bg-white/10 transition-colors">
         {icon}
       </div>
-      <h3 className="text-2xl font-bold text-gray-900 mb-3">{title}</h3>
-      <p className="text-gray-500 leading-relaxed">
+      <h3 className="text-2xl font-bold mb-4 font-serif">{title}</h3>
+      <p className="text-gray-400 leading-relaxed text-lg">
         {desc}
       </p>
     </div>
-  )
+  );
 }

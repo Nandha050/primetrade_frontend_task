@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext';
-import { Mail, Lock, LogIn } from 'lucide-react';
+import { Mail, Lock, LogIn, Eye, EyeOff, ChefHat, ArrowRight } from 'lucide-react';
+import { sanitizeInput, validateEmail } from '../utils/helpers';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function Login() {
     password: '',
   });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,15 +24,24 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
 
-    if (!formData.email || !formData.password) {
+    const email = sanitizeInput(formData.email);
+    const password = sanitizeInput(formData.password);
+
+    if (!email || !password) {
       toast.error('Please fill in all fields');
       setLoading(false);
       return;
     }
 
+    if (!validateEmail(email)) {
+      toast.error('Please enter a valid email address');
+      setLoading(false);
+      return;
+    }
+
     try {
-      await login(formData);
-      toast.success('Login successful!');
+      await login({ email, password });
+      toast.success('Welcome back, Chef!');
       navigate('/dashboard');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Login failed');
@@ -40,94 +51,149 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-white flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
-        {/* Card */}
-        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-          {/* Header with Gradient */}
-          <div className="bg-gradient-to-r from-red-500 to-orange-500 px-8 py-12 text-center">
-            <div className="text-6xl mb-4">👨‍🍳</div>
-            <h1 className="text-4xl font-bold text-white mb-1">Chef</h1>
-            <p className="text-orange-100 font-semibold">A Recipe Book</p>
-          </div>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[url('https://images.unsplash.com/photo-1495195134817-aeb325a55b65?q=80&w=1776&auto=format&fit=crop')] bg-cover bg-center position-fixed relative">
+      {/* Dark Overlay for Background */}
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-0"></div>
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="px-8 py-10 space-y-6">
-            <div>
-              <label className="block text-sm font-bold text-gray-800 mb-3">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 text-gray-400" size={20} />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none text-gray-900 font-semibold transition"
-                  placeholder="you@example.com"
-                  required
-                />
+      {/* Floating Card Container */}
+      <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row relative z-10 animate-fade-in-up">
+
+        {/* Left Side - Image Section */}
+        <div className="hidden md:block md:w-1/2 relative bg-black">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent z-10" />
+          <img
+            src="https://images.unsplash.com/photo-1596560548464-f010549b84d7?q=80&w=1770&auto=format&fit=crop"
+            alt="Spices and ingredients"
+            className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
+          />
+          <div className="relative z-20 flex flex-col justify-end h-full p-12 text-white">
+            <div className="mb-4">
+              <div className="flex -space-x-2 mb-4">
+                {[1, 2, 3].map((i) => (
+                  <img
+                    key={i}
+                    src={`https://i.pravatar.cc/100?img=${i + 25}`}
+                    alt="User"
+                    className="w-10 h-10 rounded-full border-2 border-white/20"
+                  />
+                ))}
               </div>
+              <h2 className="text-4xl font-serif font-bold mb-2 leading-tight">
+                Master the <br /> <span className="text-orange-400">Art of Cooking</span>
+              </h2>
+              <p className="text-gray-300 text-sm opacity-90">
+                Join our community of 10,000+ chefs and discover recipes that inspire.
+              </p>
             </div>
-
-            <div>
-              <label className="block text-sm font-bold text-gray-800 mb-3">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 text-gray-400" size={20} />
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent outline-none text-gray-900 font-semibold transition"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold py-3 rounded-xl transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center gap-2 text-lg"
-            >
-              <LogIn size={20} />
-              {loading ? 'Logging in...' : 'Sign In'}
-            </button>
-
-            {/* Divider */}
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-600 font-semibold">New to Chef?</span>
-              </div>
-            </div>
-
-            <Link
-              to="/register"
-              className="w-full border-2 border-red-500 text-red-600 hover:bg-red-50 font-bold py-3 rounded-xl transition flex items-center justify-center gap-2"
-            >
-              Create an Account
-            </Link>
-          </form>
-
-          {/* Footer */}
-          <div className="bg-orange-50 px-8 py-4 text-center border-t border-orange-100">
-            <p className="text-sm text-gray-600">
-              Ready to organize your recipes? 
-              <span className="text-orange-600 font-bold"> Join now!</span>
-            </p>
           </div>
         </div>
 
-        {/* Security Badge */}
-        <div className="text-center mt-6 text-gray-600 text-sm">
-          <p>🔒 Your recipes are secure and private</p>
+        {/* Right Side - Form Section */}
+        <div className="flex-1 p-6 md:p-12 lg:p-16 bg-white flex flex-col justify-center">
+          <div className="max-w-md mx-auto w-full space-y-8">
+            {/* Logo */}
+            <Link to="/" className="inline-flex items-center gap-2 group mb-2">
+              <div className="p-2 bg-orange-600 rounded-xl text-white group-hover:rotate-12 transition-transform">
+                <ChefHat size={24} />
+              </div>
+              <span className="text-xl font-bold text-gray-900 tracking-tight">Foodoo</span>
+            </Link>
+
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Welcome Back</h1>
+              <p className="text-gray-500">
+                Please enter your details to sign in.
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Email</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
+                    </div>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="block w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
+                      placeholder="you@example.com"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Password</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
+                    </div>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="block w-full pl-11 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
+                      placeholder="••••••••"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                    >
+                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
+                    className="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded cursor-pointer"
+                  />
+                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-600 cursor-pointer select-none">
+                    Remember me
+                  </label>
+                </div>
+
+                <div className="text-sm">
+                  <Link to="#" className="font-bold text-orange-600 hover:text-orange-500 transition-colors">
+                    Forgot password?
+                  </Link>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full flex justify-center items-center gap-2 py-4 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-gray-900 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-all transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                {loading ? (
+                  <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <>
+                    Sign In <ArrowRight size={20} />
+                  </>
+                )}
+              </button>
+            </form>
+
+            <p className="text-center text-sm text-gray-500 mt-8">
+              Don't have an account?{' '}
+              <Link to="/register" className="font-bold text-orange-600 hover:text-orange-500 hover:underline transition-colors">
+                Sign up for free
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

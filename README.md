@@ -181,8 +181,10 @@ Content-Type: application/json
   "prepTime": 15,
   "cookTime": 12,
   "servings": 24,
+  "servings": 24,
   "calories": 200,
   "rating": 5,
+  "dietary": "Veg",
   "imageUrl": "https://example.com/image.jpg",
   "ingredients": [
     {
@@ -247,6 +249,7 @@ Content-Type: application/json
 {
   "title": "Updated Recipe Name",
   "description": "Updated description",
+  "dietary": "Non-Veg",
   ...
 }
 
@@ -354,6 +357,16 @@ frontend/
 5. **Database Replication**: MongoDB replica sets for HA
 6. **CDN**: Static assets on CDN for faster delivery
 7. **Caching**: Redis caching for frequently accessed recipes
+
+### 5. Note on how you would scale the frontend-backend integration for production
+To effectively scale the integration between the React frontend and Node.js backend for a high-traffic production environment, I would implement the following strategies:
+
+*   **API Gateway & Load Balancing**: Introduce an API Gateway (like Nginx or AWS API Gateway) to sit between the frontend and backend. This handles rate limiting, request routing, and SSL termination, allowing us to horizontally scale the backend server instances behind a load balancer without client-side changes.
+*   **Server-Side Caching (Redis)**: Implement Redis to cache frequent API responses (e.g., fetching the "All Recipes" feed). This drastically reduces database load and improves response times for read-heavy operations.
+*   **CDN for Static Assets**: Offload all static assets (images, CSS, JS bundles) to a global CDN (like Cloudflare or AWS CloudFront). This ensures users download the frontend application from a server closest to them, reducing latency.
+*   **Optimistic UI Updates**: On the frontend, implement optimistic UI (using React Query or Apollo) to update the interface immediately upon user action (like "liking" a recipe) while the backend processes the request in the background. This makes the app feel instant even under load.
+*   **Database Indexing & Sharding**: Ensure all frequently queried fields (like `category`, `dietary`, `rating`) are indexed. For massive scale, we would look into database sharding to distribute data across multiple machines.
+*   **CI/CD Pipeline**: Automate testing and deployment. Every push to `main` should run unit/integration tests and, if successful, deploy to a staging environment before production.
 
 ## Future Enhancements
 
