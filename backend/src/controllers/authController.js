@@ -109,11 +109,12 @@ const updateProfile = async (req, res) => {
   try {
     const { name, bio, profilePicture } = req.body;
     const user = await User.findById(req.user.id);
+    const uploadedProfilePath = req.file ? `/uploads/profiles/${req.file.filename}` : null;
 
     if (user) {
       user.name = name || user.name;
       user.bio = bio || user.bio;
-      user.profilePicture = profilePicture || user.profilePicture;
+      user.profilePicture = uploadedProfilePath || profilePicture || user.profilePicture;
 
       const updatedUser = await user.save();
 

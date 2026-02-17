@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfile = useCallback(async (data) => {
     const response = await authAPI.updateProfile(data);
-    setUser(response.data.user);
+    await getProfile(); // Re-fetch profile to get the latest data
     return response.data;
   }, []);
 

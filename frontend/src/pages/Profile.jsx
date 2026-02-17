@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { User, Mail, Camera, Save, X, Edit } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { fileToDataUrl } from '../utils/helpers';
 
 export default function Profile() {
     const { user, updateProfile } = useContext(AuthContext);
@@ -12,6 +13,7 @@ export default function Profile() {
         bio: user?.bio || '',
         profilePicture: user?.profilePicture || user?.avatar || '',
     });
+    const [profileFile, setProfileFile] = useState(null);
     const [loading, setLoading] = useState(false);
 
     // Update formData when user context changes/loads
@@ -30,17 +32,54 @@ export default function Profile() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleProfileImageUpload = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) {
+            toast.error('Please select a valid image file');
+            return;
+        }
+
+        if (file.size > 3 * 1024 * 1024) {
+            toast.error('Image size should be 3MB or less');
+            return;
+        }
+
+        setProfileFile(file);
+
+        try {
+            const dataUrl = await fileToDataUrl(file);
+            setFormData((prev) => ({ ...prev, profilePicture: dataUrl }));
+            toast.success('Profile image selected');
+        } catch (error) {
+            toast.error('Failed to process image');
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        try {
-            // Send both keys to be safe, or just profilePicture which seems to be the intended standard
-            await updateProfile({
+
+        let submissionData;
+
+        if (profileFile) {
+            submissionData = new FormData();
+            submissionData.append('name', formData.name);
+            submissionData.append('bio', formData.bio);
+            submissionData.append('profileImage', profileFile);
+        } else {
+            submissionData = {
                 ...formData,
-                avatar: formData.profilePicture // Ensure backward compatibility if backend expects avatar
-            });
+                avatar: formData.profilePicture
+            };
+        }
+
+        try {
+            await updateProfile(submissionData);
             toast.success('Profile updated successfully');
             setIsEditing(false);
+            setProfileFile(null); 
         } catch (error) {
             toast.error('Failed to update profile');
         } finally {
@@ -55,7 +94,7 @@ export default function Profile() {
                 <div className="h-32 md:h-48 bg-gradient-to-r from-orange-400 to-red-500 relative">
                     <div className="absolute -bottom-12 left-4 md:-bottom-16 md:left-8">
                         <div className="relative group">
-                            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white bg-gray-200 flex items-center justify-center overflow-hidden shadow-lg bg-white">
+                            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white bg-white flex items-center justify-center overflow-hidden shadow-lg">
                                 {(user?.profilePicture || user?.avatar) ? (
                                     <img
                                         src={user.profilePicture || user.avatar}
@@ -117,7 +156,14 @@ export default function Profile() {
                                         className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all"
                                     />
                                 </div>
-                                <p className="text-xs text-gray-500 mt-1">Direct link to an image (e.g., from Unsplash)</p>
+                                <label className="mt-3 block text-sm font-bold text-gray-700 mb-2">Upload from device</label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleProfileImageUpload}
+                                    className="w-full text-sm text-gray-700 file:mr-3 file:py-2 file:px-3 file:border-0 file:rounded-lg file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200"
+                                />
+                                <p className="text-xs text-gray-500 mt-1">Use URL or upload a local image (max 3MB)</p>
                             </div>
 
                             {/* Full Name */}

@@ -1,5 +1,15 @@
 const Recipe = require('../models/Recipe');
 
+const parseJsonField = (value, fallback) => {
+  if (!value) return fallback;
+  if (typeof value !== 'string') return value;
+  try {
+    return JSON.parse(value);
+  } catch (error) {
+    return fallback;
+  }
+};
+
 const createRecipe = async (req, res) => {
   try {
     const {
@@ -7,6 +17,7 @@ const createRecipe = async (req, res) => {
       prepTime, cookTime, servings, ingredients, instructions,
       calories, rating, imageUrl, dietary
     } = req.body;
+    const uploadedRecipePath = req.file ? `/uploads/recipes/${req.file.filename}` : null;
 
     if (!title || !prepTime || !cookTime || !servings) {
       return res.status(400).json({ message: 'Please provide all required fields' });
@@ -15,9 +26,11 @@ const createRecipe = async (req, res) => {
     const recipe = new Recipe({
       title, description, category, difficulty, cuisineType,
       prepTime, cookTime, servings,
-      ingredients: ingredients || [],
-      instructions: instructions || [],
-      calories, rating, imageUrl, dietary,
+      ingredients: parseJsonField(ingredients, []) || [],
+      instructions: parseJsonField(instructions, []) || [],
+      calories, rating,
+      imageUrl: uploadedRecipePath || imageUrl,
+      dietary,
       user: req.user.id
     });
 
@@ -93,6 +106,7 @@ const updateRecipe = async (req, res) => {
       prepTime, cookTime, servings, ingredients, instructions,
       calories, rating, imageUrl, dietary
     } = req.body;
+    const uploadedRecipePath = req.file ? `/uploads/recipes/${req.file.filename}` : null;
 
     if (title) recipe.title = title;
     if (description) recipe.description = description;
@@ -102,11 +116,11 @@ const updateRecipe = async (req, res) => {
     if (prepTime) recipe.prepTime = prepTime;
     if (cookTime) recipe.cookTime = cookTime;
     if (servings) recipe.servings = servings;
-    if (ingredients) recipe.ingredients = ingredients;
-    if (instructions) recipe.instructions = instructions;
+    if (ingredients) recipe.ingredients = parseJsonField(ingredients, recipe.ingredients);
+    if (instructions) recipe.instructions = parseJsonField(instructions, recipe.instructions);
     if (calories) recipe.calories = calories;
     if (rating) recipe.rating = rating;
-    if (imageUrl) recipe.imageUrl = imageUrl;
+    if (uploadedRecipePath || imageUrl) recipe.imageUrl = uploadedRecipePath || imageUrl;
     if (dietary) recipe.dietary = dietary;
     recipe.updatedAt = Date.now();
 

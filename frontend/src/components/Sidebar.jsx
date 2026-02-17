@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LogOut, Edit2, ChefHat, User, Plus, BookOpen, X, LayoutDashboard } from 'lucide-react';
+import { LogOut, Edit2, ChefHat, User, X, LayoutDashboard } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 
 export default function Sidebar({ recipeCount, onCreateRecipe, onClose }) {
@@ -24,12 +24,13 @@ export default function Sidebar({ recipeCount, onCreateRecipe, onClose }) {
     };
 
     return (
-        <div className="bg-gradient-to-b from-white to-gray-50 h-full w-64 border-r border-gray-200/80 flex flex-col items-center py-8 shadow-2xl lg:shadow-none overflow-y-auto relative">
+        <div className="bg-gradient-to-b from-white to-gray-50 h-full w-[17rem] sm:w-64 border-r border-gray-200/80 flex flex-col items-center py-6 sm:py-8 shadow-2xl lg:shadow-none overflow-y-auto relative">
 
             {/* Close Button for Mobile */}
             <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 lg:hidden text-gray-500"
+                className="absolute top-4 right-4 min-h-11 min-w-11 p-2 rounded-full hover:bg-gray-100 lg:hidden text-gray-500"
+                aria-label="Close menu"
             >
                 <X size={20} />
             </button>
@@ -50,7 +51,7 @@ export default function Sidebar({ recipeCount, onCreateRecipe, onClose }) {
             <div className="w-full px-4 mb-6">
                 <button
                     onClick={handleDashboardClick}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${location.pathname === '/dashboard'
+                    className={`w-full min-h-11 flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all ${location.pathname === '/dashboard'
                         ? 'bg-orange-50 text-[var(--color-primary)] shadow-sm border border-orange-100'
                         : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                         }`}
@@ -83,6 +84,7 @@ export default function Sidebar({ recipeCount, onCreateRecipe, onClose }) {
                         onClick={handleProfileClick}
                         className="absolute bottom-0 right-0 p-1.5 bg-white rounded-full shadow-md border border-gray-200 hover:bg-[var(--color-primary-light)] hover:border-[var(--color-primary)] transition-all opacity-0 group-hover:opacity-100"
                         title="Edit Profile"
+                        aria-label="Edit profile"
                     >
                         <Edit2 size={12} className="text-[var(--color-primary)]" />
                     </button>
@@ -111,7 +113,7 @@ export default function Sidebar({ recipeCount, onCreateRecipe, onClose }) {
             <div className="w-full px-6 pb-4 border-t border-gray-200/80 pt-6">
                 <button
                     onClick={handleLogout}
-                    className="flex items-center justify-center gap-3 text-[var(--color-text-primary)] hover:text-white bg-white hover:bg-[var(--color-danger)] transition-all duration-200 w-full px-4 py-3 rounded-xl border-2 border-gray-200 hover:border-[var(--color-danger)] font-semibold shadow-sm hover:shadow-md active:scale-95 group"
+                    className="flex items-center justify-center gap-3 text-[var(--color-text-primary)] hover:text-white bg-white hover:bg-[var(--color-danger)] transition-all duration-200 w-full min-h-11 px-4 py-3 rounded-xl border-2 border-gray-200 hover:border-[var(--color-danger)] font-semibold shadow-sm hover:shadow-md active:scale-95 group"
                 >
                     <LogOut size={20} className="transition-transform group-hover:translate-x-1" />
                     <span>Logout</span>

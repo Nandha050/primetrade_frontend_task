@@ -89,37 +89,37 @@ export default function Login() {
         </div>
 
         {/* Right Side - Form Section */}
-        <div className="flex-1 p-6 md:p-12 lg:p-16 bg-white flex flex-col justify-center">
-          <div className="max-w-md mx-auto w-full space-y-8">
+        <div className="flex-1 p-6 sm:p-8 md:p-10 lg:p-16 bg-white flex flex-col justify-center">
+          <div className="max-w-md mx-auto w-full space-y-6 sm:space-y-8">
             {/* Logo */}
             <Link to="/" className="inline-flex items-center gap-2 group mb-2">
-              <div className="p-2 bg-orange-600 rounded-xl text-white group-hover:rotate-12 transition-transform">
-                <ChefHat size={24} />
+              <div className="p-1.5 sm:p-2 bg-orange-600 rounded-lg sm:rounded-xl text-white group-hover:rotate-12 transition-transform">
+                <ChefHat size={20} className="sm:w-6 sm:h-6" />
               </div>
-              <span className="text-xl font-bold text-gray-900 tracking-tight">Foodoo</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight">Foodoo</span>
             </Link>
 
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Welcome Back</h1>
-              <p className="text-gray-500">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 mb-1.5 sm:mb-2">Welcome Back</h1>
+              <p className="text-sm sm:text-base text-gray-500">
                 Please enter your details to sign in.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+              <div className="space-y-3.5 sm:space-y-4">
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Email</label>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 ml-1">Email</label>
                   <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
+                    <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                      <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
                     </div>
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="block w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
+                      className="block w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
                       placeholder="you@example.com"
                       required
                     />
@@ -127,26 +127,26 @@ export default function Login() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Password</label>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 ml-1">Password</label>
                   <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
+                    <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                      <Lock className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
                     </div>
                     <input
                       type={showPassword ? 'text' : 'password'}
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
-                      className="block w-full pl-11 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
+                      className="block w-full pl-10 sm:pl-11 pr-11 sm:pr-12 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
                       placeholder="••••••••"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                      className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
                     >
-                      {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      {showPassword ? <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Eye className="w-4 h-4 sm:w-5 sm:h-5" />}
                     </button>
                   </div>
                 </div>
@@ -175,19 +175,19 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center items-center gap-2 py-4 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-gray-900 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-all transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full flex justify-center items-center gap-2 py-3 sm:py-4 px-4 border border-transparent rounded-lg sm:rounded-xl shadow-lg text-base sm:text-lg font-bold text-white bg-gray-900 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-all transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {loading ? (
-                  <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 ) : (
                   <>
-                    Sign In <ArrowRight size={20} />
+                    Sign In <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
                   </>
                 )}
               </button>
             </form>
 
-            <p className="text-center text-sm text-gray-500 mt-8">
+            <p className="text-center text-xs sm:text-sm text-gray-500 mt-6 sm:mt-8">
               Don't have an account?{' '}
               <Link to="/register" className="font-bold text-orange-600 hover:text-orange-500 hover:underline transition-colors">
                 Sign up for free

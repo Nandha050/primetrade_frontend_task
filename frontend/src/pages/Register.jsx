@@ -97,7 +97,7 @@ export default function Register() {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-0"></div>
 
       {/* Floating Card */}
-      <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row relative z-10 animate-fade-in-up">
+      <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden max-w-[1100px] w-full flex flex-col md:flex-row relative z-10 animate-fade-in-up mx-auto">
 
         {/* Right Side - Image Section (Order-last for Desktop to keep typical layout, or keep left for consistency? Let's mirror Login for variety or keep consistent? The previous design had it flipped. Let's keep consistency with Login: Image Left, Form Right. Actually, the user might prefer consistency. Let's do Image Left for both or Image Right for both? The previous code had Image on the right for Register. Let's Keep Image on the LEFT for consistency with standard modal designs, or we can Flip it. Let's Flip it like the previous design to distinguish pages.) */}
         {/* Let's stick to the previous Split design's logical flow but inside a card. 
@@ -107,36 +107,36 @@ export default function Register() {
             The previous code had `order-last` on the image div. Let's keep that structure but adapted for the card.
         */}
 
-        {/* Form Section (Left side in source, but visual order depends on flex) */}
-        <div className="flex-1 p-6 md:p-12 lg:p-16 bg-white flex flex-col justify-center order-2 md:order-1">
-          <div className="max-w-md mx-auto w-full space-y-6">
+        {/* Form Section */}
+        <div className="flex-1 p-6 sm:p-8 md:p-10 lg:p-16 bg-white flex flex-col justify-center order-2 md:order-1">
+          <div className="max-w-md mx-auto w-full space-y-6 sm:space-y-8">
             <Link to="/" className="inline-flex items-center gap-2 group mb-2">
-              <div className="p-2 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl text-white group-hover:rotate-12 transition-transform">
-                <ChefHat size={24} />
+              <div className="p-1.5 sm:p-2 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg sm:rounded-xl text-white group-hover:rotate-12 transition-transform">
+                <ChefHat size={20} className="sm:w-6 sm:h-6" />
               </div>
-              <span className="text-xl font-bold text-gray-900 tracking-tight">Foodoo</span>
+              <span className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight">Foodoo</span>
             </Link>
 
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Create Account</h1>
-              <p className="text-gray-500">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 mb-1.5 sm:mb-2">Create Account</h1>
+              <p className="text-sm sm:text-base text-gray-500">
                 Join us and start your culinary journey.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Full Name</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 ml-1">Full Name</label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <User className="h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
+                  <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                    <User className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
                   </div>
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="block w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
+                    className="block w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
                     placeholder="John Doe"
                     required
                   />
@@ -144,70 +144,70 @@ export default function Register() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Email Address</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 ml-1">Email Address</label>
                 <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
+                  <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                    <Mail className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
                   </div>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="block w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
+                    className="block w-full pl-10 sm:pl-11 pr-3 sm:pr-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
                     placeholder="you@example.com"
                     required
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Password</label>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 ml-1">Password</label>
                   <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
+                    <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                      <Lock className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
                     </div>
                     <input
                       type={showPassword ? 'text' : 'password'}
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
-                      className="block w-full pl-11 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
+                      className="block w-full pl-10 sm:pl-11 pr-10 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
                       placeholder="••••••••"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                      className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
                     >
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      {showPassword ? <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Eye className="w-4 h-4 sm:w-5 sm:h-5" />}
                     </button>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Confirm</label>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 ml-1">Confirm</label>
                   <div className="relative group">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <Lock className="h-5 w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
+                    <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+                      <Lock className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 group-focus-within:text-orange-500 transition-colors" />
                     </div>
                     <input
                       type={showConfirmPassword ? 'text' : 'password'}
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className="block w-full pl-11 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
+                      className="block w-full pl-10 sm:pl-11 pr-10 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl text-sm sm:text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-medium"
                       placeholder="••••••••"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+                      className="absolute inset-y-0 right-0 pr-3 sm:pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
                     >
-                      {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                      {showConfirmPassword ? <EyeOff className="w-4 h-4 sm:w-5 sm:h-5" /> : <Eye className="w-4 h-4 sm:w-5 sm:h-5" />}
                     </button>
                   </div>
                 </div>
@@ -239,20 +239,22 @@ export default function Register() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center items-center gap-2 py-4 px-4 mt-2 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full flex justify-center items-center gap-2 py-3 sm:py-4 px-4 border border-transparent rounded-lg sm:rounded-xl shadow-lg text-base sm:text-lg font-bold text-white bg-gray-900 hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-all transform hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {loading ? (
-                  <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 ) : (
-                  'Create Account'
+                  <>
+                    Create Account <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </>
                 )}
               </button>
             </form>
 
-            <p className="text-center text-sm text-gray-500 mt-6">
+            <p className="text-center text-xs sm:text-sm text-gray-500 mt-6 sm:mt-8">
               Already have an account?{' '}
-              <Link to="/login" className="font-bold text-orange-600 hover:text-orange-500 hover:underline transition-colors flex items-center justify-center gap-1">
-                Sign in <ArrowRight size={14} className="ml-0.5" />
+              <Link to="/login" className="font-bold text-orange-600 hover:text-orange-500 hover:underline transition-colors">
+                Sign in
               </Link>
             </p>
           </div>
@@ -266,9 +268,9 @@ export default function Register() {
             alt="Cooking vegetables"
             className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
           />
-          <div className="relative z-20 flex flex-col justify-end h-full p-12 text-white">
-            <div className="mb-8">
-              <h2 className="text-4xl font-serif font-bold mb-4 leading-tight">
+          <div className="relative z-20 flex flex-col justify-end h-full p-8 md:p-12 text-white">
+            <div className="mb-4 md:mb-8">
+              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-4 leading-tight">
                 Start Your <br />
                 <span className="text-orange-400">Flavor Journey</span>
               </h2>

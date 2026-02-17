@@ -29,7 +29,7 @@ export default function Home() {
             <span className="text-gray-200 text-[10px] md:text-xs font-bold uppercase tracking-widest">Join 10k+ Chefs</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-serif font-bold tracking-tight leading-tight md:leading-none text-white drop-shadow-2xl">
+          <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-serif font-bold tracking-tight leading-tight md:leading-none text-white drop-shadow-2xl">
             Taste the <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-orange-400 animate-gradient-x">
               Extraordinary
@@ -44,7 +44,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4 w-full sm:w-auto px-6 sm:px-0">
               <Link
                 to="/register"
-                className="group relative px-8 py-4 bg-orange-600 rounded-full font-bold text-lg overflow-hidden transition-transform hover:scale-105 shadow-xl hover:shadow-orange-600/30 w-full sm:w-auto flex justify-center"
+                className="group relative px-6 py-3 sm:px-8 sm:py-4 bg-orange-600 rounded-full font-bold text-base sm:text-lg overflow-hidden transition-transform hover:scale-105 shadow-xl hover:shadow-orange-600/30 w-full sm:w-auto flex justify-center"
               >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                 <span className="relative flex items-center gap-2">
@@ -54,7 +54,7 @@ export default function Home() {
 
               <Link
                 to="/login"
-                className="px-8 py-4 rounded-full font-bold text-lg border border-white/20 hover:bg-white/10 transition-colors backdrop-blur-sm w-full sm:w-auto flex justify-center"
+                className="px-6 py-3 sm:px-8 sm:py-4 rounded-full font-bold text-base sm:text-lg border border-white/20 hover:bg-white/10 transition-colors backdrop-blur-sm w-full sm:w-auto flex justify-center"
               >
                 Sign In
               </Link>
@@ -64,7 +64,7 @@ export default function Home() {
       </div>
 
       {/* Features / Value Prop Grid */}
-      <section className="py-32 bg-black relative">
+      <section className="py-20 md:py-32 bg-black relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-24">
             <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6">Elevate Your Kitchen</h2>
@@ -92,7 +92,7 @@ export default function Home() {
       </section>
 
       {/* Footer / CTA Simple */}
-      <div className="py-24 border-t border-white/10 text-center">
+      <div className="py-16 md:py-24 border-t border-white/10 text-center">
         <h2 className="text-3xl font-serif font-bold mb-8">Ready to get started?</h2>
         <Link
           to="/register"

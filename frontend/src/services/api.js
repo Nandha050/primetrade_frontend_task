@@ -20,15 +20,30 @@ export const authAPI = {
   register: (data) => api.post('/auth/register', data),
   login: (data) => api.post('/auth/login', data),
   getProfile: () => api.get('/auth/profile'),
-  updateProfile: (data) => api.put('/auth/profile', data),
+  updateProfile: (data) => {
+    const isFormData = typeof FormData !== 'undefined' && data instanceof FormData;
+    return api.put('/auth/profile', data, isFormData ? {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    } : undefined);
+  },
 };
 
 // Recipe requests
 export const recipeAPI = {
-  createRecipe: (data) => api.post('/recipes', data),
+  createRecipe: (data) => {
+    const isFormData = typeof FormData !== 'undefined' && data instanceof FormData;
+    return api.post('/recipes', data, isFormData ? {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    } : undefined);
+  },
   getRecipes: (params) => api.get('/recipes', { params }),
   getRecipeById: (id) => api.get(`/recipes/${id}`),
-  updateRecipe: (id, data) => api.put(`/recipes/${id}`, data),
+  updateRecipe: (id, data) => {
+    const isFormData = typeof FormData !== 'undefined' && data instanceof FormData;
+    return api.put(`/recipes/${id}`, data, isFormData ? {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    } : undefined);
+  },
   deleteRecipe: (id) => api.delete(`/recipes/${id}`),
 };
 

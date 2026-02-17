@@ -16,3 +16,12 @@ export const validatePassword = (password) => {
     // Simplified for this task to just length to avoid locking user out
     return password.length >= 6;
 };
+
+export const fileToDataUrl = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error('Failed to read file'));
+        reader.readAsDataURL(file);
+    });
+};

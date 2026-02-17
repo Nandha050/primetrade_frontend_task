@@ -1,6 +1,7 @@
 const express = require('express');
 const { body } = require('express-validator');
 const { register, login, getProfile } = require('../controllers/authController');
+const upload = require('../middleware/upload');
 
 const router = express.Router();
 
@@ -39,6 +40,6 @@ router.post(
 );
 
 router.get('/profile', auth, getProfile);
-router.put('/profile', auth, require('../controllers/authController').updateProfile);
+router.put('/profile', auth, upload.single('profileImage'), require('../controllers/authController').updateProfile);
 
 module.exports = router;

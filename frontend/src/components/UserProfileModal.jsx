@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import { X, Camera, Save } from 'lucide-react';
+import { fileToDataUrl } from '../utils/helpers';
 
 export default function UserProfileModal({ isOpen, onClose }) {
     const { user, updateProfile } = useContext(AuthContext);
@@ -12,6 +13,7 @@ export default function UserProfileModal({ isOpen, onClose }) {
         profilePicture: ''
     });
     const [loading, setLoading] = useState(false);
+    const [profileFile, setProfileFile] = useState(null);
 
     useEffect(() => {
         if (user) {
@@ -30,15 +32,48 @@ export default function UserProfileModal({ isOpen, onClose }) {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleProfileImageUpload = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) {
+            toast.error('Please select a valid image file');
+            return;
+        }
+
+        if (file.size > 3 * 1024 * 1024) {
+            toast.error('Image size should be 3MB or less');
+            return;
+        }
+
+        try {
+            const dataUrl = await fileToDataUrl(file);
+            setFormData((prev) => ({ ...prev, profilePicture: dataUrl }));
+            setProfileFile(file);
+            toast.success('Profile image selected');
+        } catch (error) {
+            toast.error('Failed to process image');
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         try {
-            await updateProfile({
+            const requestData = profileFile ? (() => {
+                const data = new FormData();
+                data.append('name', formData.name);
+                data.append('bio', formData.bio || '');
+                data.append('profilePicture', formData.profilePicture || '');
+                data.append('profileImage', profileFile);
+                return data;
+            })() : {
                 name: formData.name,
                 bio: formData.bio,
                 profilePicture: formData.profilePicture
-            });
+            };
+
+            await updateProfile(requestData);
             toast.success('Profile updated successfully!');
             onClose();
         } catch (error) {
@@ -112,6 +147,13 @@ export default function UserProfileModal({ isOpen, onClose }) {
                                 onChange={handleChange}
                                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-color outline-none transition font-medium text-gray-600 text-xs"
                                 placeholder="https://..."
+                            />
+                            <label className="mt-3 block text-sm font-bold text-gray-700 mb-1">Upload from device</label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleProfileImageUpload}
+                                className="w-full text-sm text-gray-700 file:mr-3 file:py-2 file:px-3 file:border-0 file:rounded-lg file:bg-orange-100 file:text-orange-700 hover:file:bg-orange-200"
                             />
                         </div>
 
