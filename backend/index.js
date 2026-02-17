@@ -27,8 +27,12 @@ app.get('/health', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Chef API Server running on port ${PORT}`);
-});
+
+// Only listen if not running on Vercel (Vercel exports the app)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Chef API Server running on port ${PORT}`);
+  });
+}
 
 module.exports = app;
