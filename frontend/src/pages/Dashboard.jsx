@@ -120,17 +120,17 @@ export default function Dashboard() {
             </div>
             <input
               type="text"
-              className="w-full glass-strong pl-12 md:pl-16 pr-6 py-4 md:py-5 rounded-2xl shadow-lg border border-white/30 focus:border-black focus:ring-4 focus:ring-black/20 text-gray-800 placeholder-gray-400 text-base md:text-lg transition-all hover:shadow-xl"
-              placeholder="What do you want to cook today?"
+              className="w-full glass-strong pl-12 md:pl-16 pr-14 md:pr-32 py-3 md:py-5 rounded-2xl shadow-lg border border-white/30 focus:border-black focus:ring-4 focus:ring-black/20 text-gray-800 placeholder-gray-400 text-sm md:text-lg transition-all hover:shadow-xl"
+              placeholder="Search recipes..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`absolute right-2 md:right-3 top-2 bottom-2 px-3 md:px-6 rounded-xl font-bold flex items-center gap-2 transition-all active:scale-95 ${showFilters ? 'bg-gradient-to-r from-[var(--color-primary)] to-orange-500 text-white shadow-md' : 'bg-white/80 text-gray-600 hover:bg-white shadow-sm'}`}
+              className={`absolute right-2 md:right-3 top-2 bottom-2 px-3 md:px-6 rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 ${showFilters ? 'bg-gradient-to-r from-[var(--color-primary)] to-orange-500 text-white shadow-md' : 'bg-white/80 text-gray-600 hover:bg-white shadow-sm'}`}
             >
-              <Filter size={16} />
-              <span className="hidden sm:inline">Filters</span>
+              <Filter size={18} />
+              <span className="hidden md:inline">Filters</span>
             </button>
           </div>
 
@@ -140,7 +140,7 @@ export default function Dashboard() {
               {/* Categories */}
               <div>
                 <label className="block text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">Category</label>
-                <div className="flex overflow-x-auto pb-2 md:pb-0 md:flex-wrap gap-2 no-scrollbar">
+                <div className="flex flex-wrap gap-2">
                   {['Appetizer', 'Main Course', 'Dessert', 'Beverage', 'Snack', 'Salad', 'Soup', 'Bread'].map(cat => (
                     <button
                       key={cat}
@@ -160,7 +160,7 @@ export default function Dashboard() {
                 {/* Difficulty */}
                 <div>
                   <label className="block text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">Difficulty</label>
-                  <div className="flex overflow-x-auto pb-2 md:pb-0 md:flex-wrap gap-2 no-scrollbar">
+                  <div className="flex flex-wrap gap-2">
                     {['Beginner', 'Intermediate', 'Advanced'].map(diff => (
                       <button
                         key={diff}
@@ -178,7 +178,7 @@ export default function Dashboard() {
                 {/* Cuisine */}
                 <div>
                   <label className="block text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">Cuisine</label>
-                  <div className="flex overflow-x-auto pb-2 md:pb-0 md:flex-wrap gap-2 no-scrollbar">
+                  <div className="flex flex-wrap gap-2">
                     {['Italian', 'Chinese', 'Indian', 'Mexican', 'American'].map(type => (
                       <button
                         key={type}
@@ -196,7 +196,7 @@ export default function Dashboard() {
                 {/* Dietary Filter (Veg/Non-Veg) */}
                 <div>
                   <label className="block text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">Dietary</label>
-                  <div className="flex overflow-x-auto pb-2 md:pb-0 md:flex-wrap gap-2 no-scrollbar">
+                  <div className="flex flex-wrap gap-2">
                     {['Veg', 'Non-Veg'].map(type => (
                       <button
                         key={type}
@@ -230,7 +230,7 @@ export default function Dashboard() {
           {/* Create New Card */}
           <div
             onClick={handleAddRecipe}
-            className="bg-gradient-to-br from-[#F77F00] to-[#F77F00] rounded-3xl p-8 flex flex-col justify-between text-white cursor-pointer hover:shadow-2xl transition-all duration-300 group relative overflow-hidden h-[420px] card-hover-lift hover-glow"
+            className="bg-gradient-to-br from-[#F77F00] to-[#F77F00] rounded-3xl p-6 md:p-8 flex flex-col justify-between text-white cursor-pointer hover:shadow-2xl transition-all duration-300 group relative overflow-hidden h-[250px] md:h-[420px] card-hover-lift hover-glow"
           >
             <div className="relative z-10">
               <div className="bg-white/20 w-fit px-3 py-1 rounded-full text-xs font-bold mb-4 uppercase tracking-wide border-2 border-white">

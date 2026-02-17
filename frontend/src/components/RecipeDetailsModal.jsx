@@ -39,7 +39,7 @@ export default function RecipeDetailsModal({ recipe, onClose }) {
                 </div>
 
                 {/* Right Side - Content */}
-                <div className="flex-1 overflow-y-auto bg-white p-8 relative">
+                <div className="flex-1 overflow-y-auto bg-white p-6 md:p-8 relative">
                     {/* Close Button Desktop */}
                     <button
                         onClick={onClose}

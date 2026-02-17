@@ -6,7 +6,7 @@ export default function RecipeCard({ recipe, onClick, onEdit, onDelete }) {
 
     return (
         <div
-            className="group relative h-[450px] w-full rounded-[2rem] overflow-hidden cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500 card-hover-lift"
+            className="group relative h-[400px] md:h-[450px] w-full rounded-[2rem] overflow-hidden cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500 card-hover-lift"
             onClick={() => onClick(recipe)}
         >
             {/* Full Background Image */}

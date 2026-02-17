@@ -35,7 +35,7 @@ export default function Layout() {
                     <div className="w-10"></div> {/* Spacer for centering */}
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-4 lg:p-0">
+                <div className="flex-1 overflow-y-auto p-0">
                     <Outlet />
                 </div>
             </div>
