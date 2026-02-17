@@ -81,7 +81,7 @@ export default function Register() {
     }
 
     try {
-      await register({ name, email, password });
+      await register({ name, email, password, confirmPassword });
       toast.success('Account created successfully!');
       navigate('/dashboard');
     } catch (error) {
