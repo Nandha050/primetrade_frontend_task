@@ -127,7 +127,7 @@ export default function Dashboard() {
             />
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`absolute right-2 md:right-3 top-2 bottom-2 px-4 md:px-6 rounded-xl font-bold flex items-center gap-2 transition-all active:scale-95 ${showFilters ? 'bg-gradient-to-r from-[var(--color-primary)] to-orange-500 text-white shadow-md' : 'bg-white/80 text-gray-600 hover:bg-white shadow-sm'}`}
+              className={`absolute right-2 md:right-3 top-2 bottom-2 px-3 md:px-6 rounded-xl font-bold flex items-center gap-2 transition-all active:scale-95 ${showFilters ? 'bg-gradient-to-r from-[var(--color-primary)] to-orange-500 text-white shadow-md' : 'bg-white/80 text-gray-600 hover:bg-white shadow-sm'}`}
             >
               <Filter size={16} />
               <span className="hidden sm:inline">Filters</span>
@@ -136,11 +136,11 @@ export default function Dashboard() {
 
           {/* Collapsible Filters */}
           <div className={`transition-all duration-500 overflow-hidden ${showFilters ? 'max-h-[500px] opacity-100 animate-scale-in' : 'max-h-0 opacity-0'}`}>
-            <div className="glass-strong p-8 rounded-3xl shadow-xl border border-white/30 space-y-8">
+            <div className="glass-strong p-5 md:p-8 rounded-3xl shadow-xl border border-white/30 space-y-6 md:space-y-8">
               {/* Categories */}
               <div>
                 <label className="block text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">Category</label>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex overflow-x-auto pb-2 md:pb-0 md:flex-wrap gap-2 no-scrollbar">
                   {['Appetizer', 'Main Course', 'Dessert', 'Beverage', 'Snack', 'Salad', 'Soup', 'Bread'].map(cat => (
                     <button
                       key={cat}
@@ -160,7 +160,7 @@ export default function Dashboard() {
                 {/* Difficulty */}
                 <div>
                   <label className="block text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">Difficulty</label>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex overflow-x-auto pb-2 md:pb-0 md:flex-wrap gap-2 no-scrollbar">
                     {['Beginner', 'Intermediate', 'Advanced'].map(diff => (
                       <button
                         key={diff}
@@ -178,7 +178,7 @@ export default function Dashboard() {
                 {/* Cuisine */}
                 <div>
                   <label className="block text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">Cuisine</label>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex overflow-x-auto pb-2 md:pb-0 md:flex-wrap gap-2 no-scrollbar">
                     {['Italian', 'Chinese', 'Indian', 'Mexican', 'American'].map(type => (
                       <button
                         key={type}
@@ -196,7 +196,7 @@ export default function Dashboard() {
                 {/* Dietary Filter (Veg/Non-Veg) */}
                 <div>
                   <label className="block text-sm font-bold text-gray-400 mb-3 uppercase tracking-wider">Dietary</label>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex overflow-x-auto pb-2 md:pb-0 md:flex-wrap gap-2 no-scrollbar">
                     {['Veg', 'Non-Veg'].map(type => (
                       <button
                         key={type}

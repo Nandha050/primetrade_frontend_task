@@ -178,25 +178,19 @@ h6 {
   box-shadow: var(--shadow-xl);
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar - Hidden as requested */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 0px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-background);
-  border-radius: 10px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #e47615, #926841);
-  border-radius: 10px;
-  border: 2px solid var(--color-background);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #926841, #e47615);
+  background: transparent;
+  border: none;
 }
 
 .no-scrollbar::-webkit-scrollbar {

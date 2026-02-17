@@ -491,18 +491,18 @@ export default function RecipeModal({ recipe, onClose }) {
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-3 pt-6 border-t-2 border-gray-200">
+          <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t-2 border-gray-200">
             <button
               type="button"
               onClick={() => onClose(false)}
-              className="flex-1 px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-100 hover:border-gray-400 transition font-bold text-lg"
+              className="w-full sm:flex-1 px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-100 hover:border-gray-400 transition font-bold text-base md:text-lg"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-xl hover:from-red-600 hover:to-orange-600 transition font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+              className="w-full sm:flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-xl hover:from-red-600 hover:to-orange-600 transition font-bold text-base md:text-lg disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
             >
               {loading ? '⏳ Saving...' : recipe ? '✏️ Update Recipe' : '➕ Create Recipe'}
             </button>
